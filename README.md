@@ -1,8 +1,8 @@
 # Título: BiblioControl - Automatización de la Gestión de Bibliotecas
 ## Introducción
 La aplicación BiblioControl se ha creado con el propósito de simplificar y automatizar la gestión de bibliotecas, llegando incluso a suplir la necesidad de un bibliotecario. Esta aplicación ofrece varias funcionalidades esenciales que permiten a los administradores y usuarios de la biblioteca llevar a cabo sus tareas de manera eficiente.
-<img width="454" alt="Esquema Inicio" src="https://github.com/ac-14/TrabajoJava/assets/119895282/a47e674a-dcc3-441a-beef-1ae9a2af8f91">
 
+<img width="454" alt="Esquema Inicio" src="https://github.com/ac-14/TrabajoJava/assets/119895282/a47e674a-dcc3-441a-beef-1ae9a2af8f91">
 
 ## Funcionalidades Principales
 Inicio de Sesión y Administración de Usuarios: La aplicación presenta una ventana principal con tres opciones: Iniciar sesión, crear usuario y recuperar acceso en caso de olvido de la contraseña. Para crear un usuario se necesitará un DNI y una contraseña. Al iniciar sesión, se distinguen dos tipos de usuarios: el administrador y los usuarios de la biblioteca.
