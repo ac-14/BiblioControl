@@ -18,6 +18,11 @@ El administrador tiene acceso a un conjunto de herramientas para gestionar la bi
 •	Gestión de Usuarios: Puede bloquear el acceso de ciertos usuarios por razones específicas, cambiar contraseñas, etc.
 
 •	Gestión de Peticiones: Visualiza las solicitudes de libros de los usuarios, permitiendo la compra y adición posterior de los mismos.
+
+<p align="center">
+<img width="89" alt="Menu_Administrador" src="https://github.com/ac-14/TrabajoJava/assets/119895282/399a9441-6d0f-4387-a260-e001fa61ac0b">
+</p>
+
 ### Usuario
 Los usuarios de la biblioteca, al iniciar sesión con su DNI y contraseña, pueden realizar las siguientes acciones:
 
@@ -30,3 +35,7 @@ Los usuarios de la biblioteca, al iniciar sesión con su DNI y contraseña, pued
 •	Recuperar Contraseña: En caso de olvidar la contraseña, le llegará la solicitud al administrador para reestablecer el acceso al usuario.
 
 •	Recomendación de Libro: Si el usuario quiere disfrutar un libro aleatorio, podrá el programa le sugerirá uno.
+
+<p align="center">
+<img width="103" alt="Menu_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/615e38d2-ad12-4ce5-a2af-a87c14206158">
+</p>
