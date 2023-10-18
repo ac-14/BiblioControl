@@ -73,7 +73,6 @@ public class Usuario {
         Scanner teclado = new Scanner(System.in);
         int opcion;
 
-
         while (!salir) {
             System.out.println("\nMENU USUARIO");
             System.out.println("1. Comprobar disponibilidad");
@@ -105,7 +104,7 @@ public class Usuario {
                     if (usuario.ComprobarPassword(passwordActual)) {
                         System.out.print("Introduce tu nueva contraseña: ");
                         String passwordNueva = teclado.next();
-                        usuario.cambiarPassword(passwordNueva);
+                        usuario.setPassword(passwordNueva);
                         System.out.println("Contraseña cambiada correctamente");
                     } else {
                         System.out.println("Contraseña incorrecta");
@@ -132,21 +131,8 @@ public class Usuario {
         }
     }
 
-    public boolean ComprobarUsuario(ArrayList<Usuario> Usuarios) {
-        for (Usuario usuario : Usuarios) {
-            if (this.getDNI().equals(usuario.getDNI())) {
-                return true; // El usuario existe
-            }
-        }
-        return false; // El usuario no existe
-    }
-
     public boolean ComprobarPassword(String password) {
         return this.password.equals(password);
-    }
-
-    public void cambiarPassword(String password){
-        this.password = password;
     }
     
 }
