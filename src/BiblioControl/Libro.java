@@ -6,6 +6,14 @@ public class Libro {
     private String autor;
     private boolean disponible;
 
+    // Constructor
+    public Libro(String ISBN, String titulo, String autor){
+        this.ISBN = ISBN;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.disponible = true;
+    }
+
     public String getISBN(){
         return ISBN;
     }
@@ -27,14 +35,14 @@ public class Libro {
     }
 
     public void setAutor(String autor){
-        this.autor = this.autor;
+        this.autor = autor;
     }
 
-    public boolean getDisponible(){
+    public boolean getDisponible() {
         return disponible;
     }
 
-    public void setDisponible(boolean disponible){
+    public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
 

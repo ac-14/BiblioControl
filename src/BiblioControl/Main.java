@@ -17,6 +17,13 @@ public class Main {
         Usuarios.add(U2);
         Usuarios.add(U3);
 
+        // Libros de prueba
+        Libro L1 = new Libro("1234567890", "El Quijote", "Cervantes");
+        Libro L2 = new Libro("0987654321", "El Señor de los Anillos", "Tolkien");
+        Libros.add(L1);
+        Libros.add(L2);
+
+
         // Crear un objeto Admin
         Admin admin = new Admin("admin", "adminpassword");
 
@@ -27,6 +34,7 @@ public class Main {
             System.out.println("1. Iniciar Sesion");
             System.out.println("2. Crear Usuario");
             System.out.println("3. Salir");
+
 
             Scanner teclado = new Scanner(System.in);
             int opcion = teclado.nextInt();
@@ -44,6 +52,20 @@ public class Main {
                             break;
                         }
                     }
+                    if (DNI.equals("admin")) {
+                        System.out.println("Introduce tu contraseña");
+                        String password = teclado.next();
+
+                        if (password.equals("adminpassword")) {
+                            // Invoca el menú de administrador
+                            Admin.MenuAdmin(Usuarios, Libros);
+                            continue;
+                        } else {
+                            System.out.println("Contraseña de administrador incorrecta.");
+                            break;
+                        }
+                    }
+                    
                     if (UsuarioTemp != null) {
                         boolean autenticado = false;
 
@@ -54,7 +76,7 @@ public class Main {
                             if (UsuarioTemp.ComprobarPassword(password)) {
                                 // Si la contraseña es correcta, UsuarioTemp representa al usuario autenticado
                                 System.out.println("Bienvenido " + UsuarioTemp.getNombre());
-                                Usuario.MenuUsuario(UsuarioTemp);
+                                UsuarioTemp.MenuUsuario(Libros);
                                 autenticado = true;
                             } else {
                                 // Si la contraseña es incorrecta, mostrar mensaje de error y pista

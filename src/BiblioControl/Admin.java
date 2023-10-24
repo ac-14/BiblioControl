@@ -29,6 +29,7 @@ public class Admin extends Usuario{
         System.out.println("Usuario creado.");
     }
 
+
     // Metodo para eliminar usuarios del ArrayList Usuarios
     public void DelUsuario(String DNI, ArrayList<Usuario> Usuarios){
         for(int i = 0; i < Usuarios.size(); i++){
@@ -39,12 +40,11 @@ public class Admin extends Usuario{
     }
 
 // Metodo para añadir libros al ArrayList Libros
-    public ArrayList<Libro> addLibros(String ISBN, String titulo, String autor, boolean disponible, ArrayList<Libro> Libros){
-        Libro libro = new Libro();
+    public ArrayList<Libro> addLibros(String ISBN, String titulo, String autor, ArrayList<Libro> Libros){
+        Libro libro = new Libro(ISBN, titulo, autor);
         libro.setISBN(ISBN);
         libro.setTitulo(titulo);
         libro.setAutor(autor);
-        libro.setDisponible(disponible);
         Libros.add(libro);
         return Libros;
     }
@@ -110,7 +110,7 @@ public class Admin extends Usuario{
                     String autor = teclado.nextLine();
                     System.out.println("Introduce si el libro esta disponible");
                     boolean disponible = teclado.nextBoolean();
-                    admin.addLibros(ISBN, titulo, autor, disponible, Libros);
+                    admin.addLibros(ISBN, titulo, autor, Libros);
                     break;
 
                 case 4:
@@ -137,6 +137,4 @@ public class Admin extends Usuario{
             }
         }
     }
-
-
 }

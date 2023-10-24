@@ -8,9 +8,9 @@ public class Usuario {
     private String nombre;
     private String password;
     private String pistaPassword;
+    private ArrayList<Libro> librosReservados = new ArrayList<>();
 
-    // Constructor
-    public Usuario(String DNI, String nombre, String password, String pistaPassword){
+    public Usuario(String DNI, String nombre, String password, String pistaPassword) {
         this.DNI = DNI;
         this.nombre = nombre;
         this.password = password;
@@ -21,37 +21,61 @@ public class Usuario {
         return DNI;
     }
 
-
     public String getNombre() {
         return nombre;
     }
 
-
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 
-    public void setPistaPassword(String pistaPassword){
+    public void setPistaPassword(String pistaPassword) {
         this.pistaPassword = pistaPassword;
     }
 
-    public String getPistaPassword(){
+    public String getPistaPassword() {
         return this.pistaPassword;
     }
 
-    // Metodo para obtener el nombre del usuario a partir de su DNI
-    public static String getNombre(String DNI, ArrayList<Usuario> Usuarios){
+    public static String getNombre(String DNI, ArrayList<Usuario> Usuarios) {
         String nombre = "";
-        for(int i = 0; i < Usuarios.size(); i++){
-            if(Usuarios.get(i).getDNI().equals(DNI)){
-                nombre = Usuarios.get(i).nombre;
+        for (Usuario usuario : Usuarios) {
+            if (usuario.getDNI().equals(DNI)) {
+                nombre = usuario.getNombre();
             }
         }
         return nombre;
+    }
+
+    // Metodo para reservar un libro
+    public void reservarLibro(Libro libro, ArrayList<Libro> biblioteca) {
+        if (libro.getDisponible()) {
+            librosReservados.add(libro);
+            biblioteca.remove(libro);
+            libro.setDisponible(false);
+            System.out.println("Has reservado el libro: " + libro.getTitulo());
+        } else {
+            System.out.println("El libro no está disponible.");
+        }
+    }
+
+    public void devolverLibro(Libro libro, ArrayList<Libro> biblioteca) {
+        if (librosReservados.contains(libro)) {
+            librosReservados.remove(libro);
+            biblioteca.add(libro);
+            libro.setDisponible(true);
+            System.out.println("Has devuelto el libro: " + libro.getTitulo());
+        } else {
+            System.out.println("No has reservado este libro.");
+        }
+    }
+
+    public boolean ComprobarPassword(String password) {
+        return this.password.equals(password);
     }
 
     public static boolean validarDNI(String DNI) {
@@ -67,8 +91,7 @@ public class Usuario {
         return Character.isLetter(letra); // Devuelve true si el último carácter es una letra.
     }
 
-    // Menu Usuario : Comprobar disponibilidad, reservar libro, solicitar libro, devolver libro, pista contraseña
-    public static void MenuUsuario(Usuario usuario) {
+    public void MenuUsuario(ArrayList<Libro> biblioteca) {
         boolean salir = false;
         Scanner teclado = new Scanner(System.in);
         int opcion;
@@ -90,21 +113,53 @@ public class Usuario {
                     break;
                 case 2:
                     // Reservar libro
+                    System.out.println("Introduce el ISBN del libro que deseas reservar: ");
+                    String ISBNReserva = teclado.next();
+
+                    Libro libroReserva = null;
+                    for (Libro libro : biblioteca) {
+                        if (libro.getISBN().equals(ISBNReserva) && libro.getDisponible()) {
+                            libroReserva = libro;
+                            break;
+                        }
+                    }
+
+                    if (libroReserva != null) {
+                        reservarLibro(libroReserva, biblioteca);
+                    } else {
+                        System.out.println("El libro no está disponible o no existe.");
+                    }
                     break;
                 case 3:
                     // Solicitar libro
                     break;
                 case 4:
                     // Devolver libro
+                    System.out.println("Introduce el ISBN del libro que deseas devolver: ");
+                    String ISBNDevolucion = teclado.next();
+
+                    Libro libroDevolucion = null;
+                    for (Libro libro : librosReservados) {
+                        if (libro.getISBN().equals(ISBNDevolucion)) {
+                            libroDevolucion = libro;
+                            break;
+                        }
+                    }
+
+                    if (libroDevolucion != null) {
+                        devolverLibro(libroDevolucion, biblioteca);
+                    } else {
+                        System.out.println("No has reservado este libro.");
+                    }
                     break;
 
                 case 5:
                     System.out.print("Introduce tu contraseña actual: ");
                     String passwordActual = teclado.next();
-                    if (usuario.ComprobarPassword(passwordActual)) {
+                    if (ComprobarPassword(passwordActual)) {
                         System.out.print("Introduce tu nueva contraseña: ");
                         String passwordNueva = teclado.next();
-                        usuario.setPassword(passwordNueva);
+                        setPassword(passwordNueva);
                         System.out.println("Contraseña cambiada correctamente");
                     } else {
                         System.out.println("Contraseña incorrecta");
@@ -115,7 +170,7 @@ public class Usuario {
                     if (respuesta.equals("S")) {
                         System.out.print("Introduce tu nueva pista de contraseña: ");
                         String pistaPasswordNueva = teclado.next();
-                        usuario.setPistaPassword(pistaPasswordNueva);
+                        setPistaPassword(pistaPasswordNueva);
                         System.out.println("Pista de contraseña cambiada correctamente");
                     }
                     break;
@@ -130,9 +185,4 @@ public class Usuario {
             }
         }
     }
-
-    public boolean ComprobarPassword(String password) {
-        return this.password.equals(password);
-    }
-    
 }
