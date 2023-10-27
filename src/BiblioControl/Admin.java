@@ -157,8 +157,6 @@ public class Admin extends Usuario{
                     String titulo = teclado.nextLine();
                     System.out.println("Introduce el autor del libro");
                     String autor = teclado.nextLine();
-                    System.out.println("Introduce si el libro esta disponible");
-                    boolean disponible = teclado.nextBoolean();
                     admin.addLibros(ISBN, titulo, autor, Libros);
                     break;
 

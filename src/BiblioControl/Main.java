@@ -39,7 +39,6 @@ public class Main {
             System.out.println("2. Crear Usuario");
             System.out.println("3. Salir");
 
-
             Scanner teclado = new Scanner(System.in);
             int opcion = teclado.nextInt();
 
