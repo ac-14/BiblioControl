@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"BiblioControl","l":"Admin"},{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"BiblioControl","l":"Libro"},{"p":"BiblioControl","l":"Main"},{"p":"BiblioControl","l":"Usuario"}];updateSearchResults();

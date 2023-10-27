@@ -3,14 +3,26 @@ package BiblioControl;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Clase Admin que hereda de Usuario.
+ * Contiene los metodos para añadir y eliminar usuarios y libros, y para gestionar el sonido de la sala y las peticiones.
+ */
 public class Admin extends Usuario{
 
-    // Constructor
+    /**
+     * Constructor
+     * @param DNI DNI del administrador
+     * @param password Contraseña del administrador
+     */
     public Admin(String DNI, String password){
         super(DNI, "", password, "");
     }
 
-    // Metodo para añadir usuarios al ArrayList Usuarios
+    /**
+     * Metodo para añadir usuarios al ArrayList Usuarios
+     * Pide los datos del usuario y crea un nuevo usuario
+     * @param Usuarios ArrayList de usuarios
+     */
     public static void AddUsuario(ArrayList<Usuario> Usuarios){
         Scanner teclado = new Scanner(System.in);
 
@@ -30,7 +42,12 @@ public class Admin extends Usuario{
     }
 
 
-    // Metodo para eliminar usuarios del ArrayList Usuarios
+    /**
+     * Metodo para eliminar usuarios del ArrayList Usuarios
+     * Busca el usuario por su DNI y lo elimina
+     * @param DNI DNI del usuario
+     * @param Usuarios ArrayList de usuarios
+     */
     public void DelUsuario(String DNI, ArrayList<Usuario> Usuarios){
         for(int i = 0; i < Usuarios.size(); i++){
             if(Usuarios.get(i).getDNI().equals(DNI)){
@@ -39,7 +56,15 @@ public class Admin extends Usuario{
         }
     }
 
-// Metodo para añadir libros al ArrayList Libros
+    /**
+     * Metodo para añadir libros al ArrayList Libros
+     * Pide los datos del libro y crea un nuevo libro y lo añade al ArrayList
+     * @param ISBN ISBN del libro
+     * @param titulo Titulo del libro
+     * @param autor Autor del libro
+     * @param Libros ArrayList de libros
+     * @return devuelve el ArrayList de libros actualizado
+     */
     public ArrayList<Libro> addLibros(String ISBN, String titulo, String autor, ArrayList<Libro> Libros){
         Libro libro = new Libro(ISBN, titulo, autor);
         libro.setISBN(ISBN);
@@ -49,7 +74,12 @@ public class Admin extends Usuario{
         return Libros;
     }
 
-    // Metodo para eliminar libros del ArrayList Libros
+    /**
+     * Metodo para eliminar libros del ArrayList Libros
+     * Busca el libro por su ISBN y lo elimina con el metodo remove de ArrayList
+     * @param ISBN
+     * @param Libros
+     */
     public void delLibros(String ISBN, ArrayList<Libro> Libros){
         for(int i = 0; i < Libros.size(); i++){
             if(Libros.get(i).getISBN().equals(ISBN)){
@@ -63,7 +93,12 @@ public class Admin extends Usuario{
     // METODO GESTIONAR PETICIONES
 
 
-    // Menu Admin : Añadir usuario, eliminar usuario, añadir libro, eliminar libro, sonido sala, gestionar peticiones, salir
+    /**
+     * Metodo que muestra el menu de administrador
+     * Desde aqui se pueden añadir y eliminar usuarios y libros, gestionar el sonido de la sala y las peticiones
+     * @param Usuarios ArrayList de usuarios de la biblioteca
+     * @param Libros ArrayList de libros de la biblioteca
+     */
     public static void MenuAdmin(ArrayList<Usuario> Usuarios, ArrayList<Libro> Libros){
         Admin admin = new Admin("admin", "adminpassword");
         boolean salir = false;

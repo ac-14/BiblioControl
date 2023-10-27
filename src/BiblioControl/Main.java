@@ -3,8 +3,13 @@ package BiblioControl;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * Clase Main
+ * En la clase Main implementamos el menú inicial de la aplicación. Desde aquí podemos iniciar sesión, crear un usuario o salir de la aplicación.
+ * @author Antonio Caballero y Francisco Gutierrez
+ *
+ */
 public class Main {
-
     public static void main(String[] args) {
         ArrayList<Usuario> Usuarios = new ArrayList<Usuario>();
         ArrayList<Libro> Libros = new ArrayList<Libro>();
