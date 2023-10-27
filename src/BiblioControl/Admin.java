@@ -27,13 +27,13 @@ public class Admin extends Usuario{
         Scanner teclado = new Scanner(System.in);
 
         System.out.println("Introduce tu DNI");
-        String DNI = teclado.next();
+        String DNI = teclado.nextLine();
         System.out.println("Introduce tu nombre");
         String nombre = teclado.nextLine();
         System.out.println("Introduce tu contraseña");
-        String password = teclado.next();
+        String password = teclado.nextLine();
         System.out.println("Introduce una pista para tu contraseña");
-        String pistaPassword = teclado.next();
+        String pistaPassword = teclado.nextLine();
 
         // Crear un nuevo usuario y agregarlo a la lista de Usuarios
         Usuario nuevoUsuario = new Usuario(DNI, nombre, password, pistaPassword);
@@ -86,6 +86,20 @@ public class Admin extends Usuario{
                 Libros.remove(i);
             }
         }
+    }
+
+    /**
+     * Metodo autenticarAdmin
+     * Comprueba si el DNI y la contraseña introducidos son correctos
+     * @param DNI Nombre del administrador
+     * @param password Contraseña del administrador
+     * @return devuelve true si el usuario y la contraseña son correctos, false si no lo son
+     */
+    public static boolean autenticarAdmin(String DNI, String password) {
+        if (DNI.equals("admin") && password.equals("adminpassword")) {
+            return true;
+        }
+        return false;
     }
 
     // METODO SONIDO SALA

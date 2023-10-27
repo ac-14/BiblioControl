@@ -28,7 +28,6 @@ public class Main {
         Libros.add(L1);
         Libros.add(L2);
 
-
         // Crear un objeto Admin
         Admin admin = new Admin("admin", "adminpassword");
 
@@ -50,6 +49,8 @@ public class Main {
                     System.out.println("Introduce tu DNI");
                     String DNI = teclado.next();
 
+                    // Se crea un objeto Usuario temporal
+                    // Si existe un usuario con el DNI introducido, UsuarioTemp representa a ese usuario
                     Usuario UsuarioTemp = null;
                     for (Usuario usuario : Usuarios) {
                         if (usuario.getDNI().equals(DNI)) {
@@ -57,27 +58,24 @@ public class Main {
                             break;
                         }
                     }
-                    if (DNI.equals("admin")) {
-                        System.out.println("Introduce tu contraseña");
-                        String password = teclado.next();
 
-                        if (password.equals("adminpassword")) {
-                            // Invoca el menú de administrador
-                            Admin.MenuAdmin(Usuarios, Libros);
-                            continue;
-                        } else {
-                            System.out.println("Contraseña de administrador incorrecta.");
-                            break;
-                        }
+                    System.out.println("Introduce tu contraseña");
+                    String password = teclado.next();
+
+                    // Si el usuario no existe, comprobar si es un administrador
+                    if (UsuarioTemp == null && Admin.autenticarAdmin(DNI, password)) {
+                        // Invoca el menú de administrador
+                        Admin.MenuAdmin(Usuarios, Libros);
+                        continue;
+                    // Si el usuario existe y no es un administrador, se muestra un mensaje de error
+                    } else if (UsuarioTemp == null) {
+                        System.out.println("El usuario no existe o credenciales de administrador incorrectas.");
+                        break;
                     }
-                    
+
                     if (UsuarioTemp != null) {
                         boolean autenticado = false;
-
                         do {
-                            System.out.println("Introduce tu contraseña");
-                            String password = teclado.next();
-
                             if (UsuarioTemp.ComprobarPassword(password)) {
                                 // Si la contraseña es correcta, UsuarioTemp representa al usuario autenticado
                                 System.out.println("Bienvenido " + UsuarioTemp.getNombre());
@@ -89,9 +87,6 @@ public class Main {
                                 System.out.println("Pista: " + UsuarioTemp.getPistaPassword());
                             }
                         } while (!autenticado);
-                    } else {
-                        // Si no existe, mostrar mensaje de error
-                        System.out.println("El usuario no existe");
                     }
                     break;
 

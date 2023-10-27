@@ -179,20 +179,16 @@ public class Usuario {
 
         while (!salir) {
             System.out.println("\nMENU USUARIO");
-            System.out.println("1. Comprobar disponibilidad");
-            System.out.println("2. Reservar libro");
-            System.out.println("3. Solicitar libro");
-            System.out.println("4. Devolver libro");
-            System.out.println("5. Cambiar contraseña");
-            System.out.println("6. Salir");
+            System.out.println("1. Reservar libro");
+            System.out.println("2. Solicitar libro");
+            System.out.println("3. Devolver libro");
+            System.out.println("4. Cambiar contraseña");
+            System.out.println("5. Salir");
             System.out.print("Escribe una de las opciones: ");
             opcion = teclado.nextInt();
 
             switch (opcion) {
                 case 1:
-                    // Comprobar disponibilidad
-                    break;
-                case 2:
                     // Reservar libro
                     System.out.println("Introduce el ISBN del libro que deseas reservar: ");
                     String ISBNReserva = teclado.next();
@@ -211,10 +207,10 @@ public class Usuario {
                         System.out.println("El libro no está disponible o no existe.");
                     }
                     break;
-                case 3:
+                case 2:
                     // Solicitar libro
                     break;
-                case 4:
+                case 3:
                     // Devolver libro
                     System.out.println("Introduce el ISBN del libro que deseas devolver: ");
                     String ISBNDevolucion = teclado.next();
@@ -234,7 +230,7 @@ public class Usuario {
                     }
                     break;
 
-                case 5:
+                case 4:
                     System.out.print("Introduce tu contraseña actual: ");
                     String passwordActual = teclado.next();
                     if (ComprobarPassword(passwordActual)) {
@@ -256,7 +252,7 @@ public class Usuario {
                     }
                     break;
 
-                case 6:
+                case 5:
                     System.out.println("Cerrando sesión...");
                     salir = true; // Salir del menú de usuario
                     break;
