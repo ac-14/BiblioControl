@@ -28,6 +28,13 @@ public class Admin extends Usuario{
 
         System.out.println("Introduce tu DNI");
         String DNI = teclado.nextLine();
+
+        // Utilizar el método validarDNI para comprobar la validez del DNI introducido.
+        while (!Usuario.validarDNI(DNI)) {
+            System.out.println("El DNI introducido no es válido. Por favor, vuelve a introducir tu DNI.");
+            DNI = teclado.nextLine();
+        }
+
         System.out.println("Introduce tu nombre");
         String nombre = teclado.nextLine();
         System.out.println("Introduce tu contraseña");
@@ -40,6 +47,7 @@ public class Admin extends Usuario{
         Usuarios.add(nuevoUsuario);
         System.out.println("Usuario creado.");
     }
+
 
 
     /**
