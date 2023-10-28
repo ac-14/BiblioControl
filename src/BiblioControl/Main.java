@@ -33,7 +33,10 @@ public class Main {
             }
         }
     }
-
+    /**
+     * Metodo inicializarDatosPrueba sirve para inicializar los datos de prueba
+     *
+     */
     private static void inicializarDatosPrueba() {
         Usuarios.add(new Usuario("12345678A", "Pepe", "1234", "1234"));
         Usuarios.add(new Usuario("87654321B", "Juan", "4321", "4321"));
@@ -42,6 +45,9 @@ public class Main {
         Libros.add(new Libro("0987654321", "El Señor de los Anillos", "Tolkien"));
     }
 
+    /**
+     * Metodo mostrarMenuPrincipal muestra las opciones del menu principal
+     */
     private static void mostrarMenuPrincipal() {
         System.out.println("Bienvenido a BiblioControl");
         System.out.println("1. Iniciar Sesion");
@@ -49,6 +55,9 @@ public class Main {
         System.out.println("3. Salir");
     }
 
+    /**
+     * Metodo iniciarSesion sirve para iniciar sesion en la aplicacion
+     */
     private static void iniciarSesion() {
         System.out.println("Introduce tu DNI");
         String DNI = teclado.next();
@@ -67,6 +76,11 @@ public class Main {
         }
     }
 
+    /**
+     * Metodo buscarUsuarioPorDNI busca un usuario por su DNI
+     * @param DNI
+     * @return devuelve el usuario si lo encuentra, si no devuelve null
+     */
     private static Usuario buscarUsuarioPorDNI(String DNI) {
         for (Usuario usuario : Usuarios) {
             if (usuario.getDNI().equals(DNI)) {
@@ -76,6 +90,11 @@ public class Main {
         return null;
     }
 
+    /**
+     * Metodo autenticarUsuario sirve para verificar la contraseña del usuario
+     * @param usuario es el usuario temporal que hemos creado en el metodo iniciarSesion
+     * @param password es la contraseña que hemos introducido en el metodo iniciarSesion
+     */
     private static void autenticarUsuario(Usuario usuario, String password) {
         boolean autenticado = false;
         do {
