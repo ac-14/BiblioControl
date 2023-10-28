@@ -94,21 +94,6 @@ public class Usuario {
     }
 
     /**
-     * Metodo getNombre
-     * Es parecido al metodo getNombre pero este recibe el DNI del usuario para buscarlo en el ArrayList
-     * @return devuelve el ArrayList de libros reservados del usuario
-     */
-    public static String getNombre(String DNI, ArrayList<Usuario> Usuarios) {
-        String nombre = "";
-        for (Usuario usuario : Usuarios) {
-            if (usuario.getDNI().equals(DNI)) {
-                nombre = usuario.getNombre();
-            }
-        }
-        return nombre;
-    }
-
-    /**
      * Metodo reservarLibro
      * @param libro Libro que se va a reservar
      * @param biblioteca ArrayList de libros

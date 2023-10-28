@@ -80,7 +80,7 @@ public class Main {
         boolean autenticado = false;
         do {
             if (usuario.ComprobarPassword(password)) {
-                System.out.println("Bienvenido " + usuario.getNombre());
+                System.out.print("\nBienvenido " + usuario.getNombre());
                 usuario.MenuUsuario(Libros);
                 autenticado = true;
             } else {
