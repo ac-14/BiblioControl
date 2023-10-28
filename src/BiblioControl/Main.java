@@ -3,107 +3,97 @@ package BiblioControl;
 import java.util.Scanner;
 import java.util.ArrayList;
 
-/**
- * Clase Main
- * En la clase Main implementamos el menú inicial de la aplicación. Desde aquí podemos iniciar sesión, crear un usuario o salir de la aplicación.
- * @author Antonio Caballero y Francisco Gutierrez
- *
- */
 public class Main {
+    private static Scanner teclado = new Scanner(System.in);
+    private static ArrayList<Usuario> Usuarios = new ArrayList<>();
+    private static ArrayList<Libro> Libros = new ArrayList<>();
+
     public static void main(String[] args) {
-        ArrayList<Usuario> Usuarios = new ArrayList<Usuario>();
-        ArrayList<Libro> Libros = new ArrayList<Libro>();
-
-        // Usuarios de prueba
-        Usuario U1 = new Usuario("12345678A", "Pepe", "1234", "1234");
-        Usuario U2 = new Usuario("87654321B", "Juan", "4321", "4321");
-        Usuario U3 = new Usuario("11111111C", "Maria", "1111", "1111");
-        Usuarios.add(U1);
-        Usuarios.add(U2);
-        Usuarios.add(U3);
-
-        // Libros de prueba
-        Libro L1 = new Libro("1234567890", "El Quijote", "Cervantes");
-        Libro L2 = new Libro("0987654321", "El Señor de los Anillos", "Tolkien");
-        Libros.add(L1);
-        Libros.add(L2);
-
-        // Crear un objeto Admin
-        Admin admin = new Admin("admin", "adminpassword");
+        inicializarDatosPrueba();
 
         boolean salir = false;
         while (!salir) {
-            // Menú Inicial: Iniciar Sesion, Crear Usuario y Salir
-            System.out.println("Bienvenido a BiblioControl");
-            System.out.println("1. Iniciar Sesion");
-            System.out.println("2. Crear Usuario");
-            System.out.println("3. Salir");
-
-            Scanner teclado = new Scanner(System.in);
+            mostrarMenuPrincipal();
             int opcion = teclado.nextInt();
 
             switch (opcion) {
                 case 1:
-                    // Iniciar Sesion
-                    System.out.println("Introduce tu DNI");
-                    String DNI = teclado.next();
-
-                    // Se crea un objeto Usuario temporal
-                    // Si existe un usuario con el DNI introducido, UsuarioTemp representa a ese usuario
-                    Usuario UsuarioTemp = null;
-                    for (Usuario usuario : Usuarios) {
-                        if (usuario.getDNI().equals(DNI)) {
-                            UsuarioTemp = usuario;
-                            break;
-                        }
-                    }
-
-                    System.out.println("Introduce tu contraseña");
-                    String password = teclado.next();
-
-                    // Si el usuario no existe, comprobar si es un administrador
-                    if (UsuarioTemp == null && Admin.autenticarAdmin(DNI, password)) {
-                        // Invoca el menú de administrador
-                        Admin.MenuAdmin(Usuarios, Libros);
-                        continue;
-                    // Si el usuario existe y no es un administrador, se muestra un mensaje de error
-                    } else if (UsuarioTemp == null) {
-                        System.out.println("El usuario no existe o credenciales de administrador incorrectas.");
-                        break;
-                    }
-
-                    if (UsuarioTemp != null) {
-                        boolean autenticado = false;
-                        do {
-                            if (UsuarioTemp.ComprobarPassword(password)) {
-                                // Si la contraseña es correcta, UsuarioTemp representa al usuario autenticado
-                                System.out.println("Bienvenido " + UsuarioTemp.getNombre());
-                                UsuarioTemp.MenuUsuario(Libros);
-                                autenticado = true;
-                            } else {
-                                // Si la contraseña es incorrecta, mostrar mensaje de error y pista
-                                System.out.println("Contraseña incorrecta");
-                                System.out.println("Pista: " + UsuarioTemp.getPistaPassword());
-                            }
-                        } while (!autenticado);
-                    }
+                    iniciarSesion();
                     break;
-
                 case 2:
-                    // Crear Usuario
                     Admin.AddUsuario(Usuarios);
                     break;
-
                 case 3:
-                    // Salir
                     System.out.println("Gracias por usar BiblioControl");
                     salir = true;
                     break;
-
                 default:
                     System.out.println("Opción no válida");
                     break;
             }
         }
+    }
+
+    private static void inicializarDatosPrueba() {
+        Usuarios.add(new Usuario("12345678A", "Pepe", "1234", "1234"));
+        Usuarios.add(new Usuario("87654321B", "Juan", "4321", "4321"));
+        Usuarios.add(new Usuario("11111111C", "Maria", "1111", "1111"));
+        Libros.add(new Libro("1234567890", "El Quijote", "Cervantes"));
+        Libros.add(new Libro("0987654321", "El Señor de los Anillos", "Tolkien"));
+    }
+
+    private static void mostrarMenuPrincipal() {
+        System.out.println("Bienvenido a BiblioControl");
+        System.out.println("1. Iniciar Sesion");
+        System.out.println("2. Crear Usuario");
+        System.out.println("3. Salir");
+    }
+
+    private static void iniciarSesion() {
+        System.out.println("Introduce tu DNI");
+        String DNI = teclado.next();
+
+        Usuario UsuarioTemp = buscarUsuarioPorDNI(DNI);
+
+        System.out.println("Introduce tu contraseña");
+        String password = teclado.next();
+
+        if (UsuarioTemp == null && Admin.autenticarAdmin(DNI, password)) {
+            Admin.MenuAdmin(Usuarios, Libros);
+        } else if (UsuarioTemp == null) {
+            System.out.println("El usuario no existe o credenciales de administrador incorrectas.");
+        } else {
+            autenticarUsuario(UsuarioTemp, password);
+        }
+    }
+
+    private static Usuario buscarUsuarioPorDNI(String DNI) {
+        for (Usuario usuario : Usuarios) {
+            if (usuario.getDNI().equals(DNI)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+
+    private static void autenticarUsuario(Usuario usuario, String password) {
+        boolean autenticado = false;
+        do {
+            if (usuario.ComprobarPassword(password)) {
+                System.out.println("Bienvenido " + usuario.getNombre());
+                usuario.MenuUsuario(Libros);
+                autenticado = true;
+            } else {
+                System.out.println("Contraseña incorrecta. Pista: " + usuario.getPistaPassword());
+                System.out.println("¿Deseas intentar de nuevo? (s/n)");
+                String respuesta = teclado.next().toLowerCase();
+                if (respuesta.equals("n")) {
+                    break;
+                } else {
+                    System.out.println("Introduce tu contraseña");
+                    password = teclado.next();
+                }
+            }
+        } while (!autenticado);
     }
 }

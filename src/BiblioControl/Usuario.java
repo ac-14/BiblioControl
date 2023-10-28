@@ -145,7 +145,7 @@ public class Usuario {
      * @param password
      * @return devuelve true si la contraseña es correcta
      */
-    public boolean ComprobarPassword(String password) {
+     public boolean ComprobarPassword(String password) {
         return this.password.equals(password);
     }
 

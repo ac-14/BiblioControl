@@ -48,7 +48,7 @@ public class Admin extends Usuario{
      * @param DNI DNI del usuario
      * @param Usuarios ArrayList de usuarios
      */
-    public void DelUsuario(String DNI, ArrayList<Usuario> Usuarios){
+    public static void DelUsuario(String DNI, ArrayList<Usuario> Usuarios){
         for(int i = 0; i < Usuarios.size(); i++){
             if(Usuarios.get(i).getDNI().equals(DNI)){
                 Usuarios.remove(i);
@@ -65,7 +65,7 @@ public class Admin extends Usuario{
      * @param Libros ArrayList de libros
      * @return devuelve el ArrayList de libros actualizado
      */
-    public ArrayList<Libro> addLibros(String ISBN, String titulo, String autor, ArrayList<Libro> Libros){
+    public static ArrayList<Libro> addLibros(String ISBN, String titulo, String autor, ArrayList<Libro> Libros){
         Libro libro = new Libro(ISBN, titulo, autor);
         libro.setISBN(ISBN);
         libro.setTitulo(titulo);
@@ -80,7 +80,7 @@ public class Admin extends Usuario{
      * @param ISBN
      * @param Libros
      */
-    public void delLibros(String ISBN, ArrayList<Libro> Libros){
+    public static void delLibros(String ISBN, ArrayList<Libro> Libros){
         for(int i = 0; i < Libros.size(); i++){
             if(Libros.get(i).getISBN().equals(ISBN)){
                 Libros.remove(i);
@@ -142,7 +142,7 @@ public class Admin extends Usuario{
                     System.out.println("Introduce la contraseña del administrador");
                     String password = teclado.next();
                     if(admin.ComprobarPassword(password)){
-                        admin.DelUsuario(DNI, Usuarios);
+                        DelUsuario(DNI, Usuarios);
                         System.out.println("Usuario eliminado");
                     }else{
                         System.out.println("Contraseña del administrador incorrecta");
@@ -157,13 +157,13 @@ public class Admin extends Usuario{
                     String titulo = teclado.nextLine();
                     System.out.println("Introduce el autor del libro");
                     String autor = teclado.nextLine();
-                    admin.addLibros(ISBN, titulo, autor, Libros);
+                    addLibros(ISBN, titulo, autor, Libros);
                     break;
 
                 case 4:
                     System.out.print("Introduce el ISBN del libro que quieres eliminar: ");
                     ISBN = teclado.next();
-                    admin.delLibros(ISBN, Libros);
+                    delLibros(ISBN, Libros);
                     break;
 
                 case 5:
@@ -171,7 +171,7 @@ public class Admin extends Usuario{
                     break;
 
                 case 6:
-                    // METODO GESTIONAR PETICIONES
+
                     break;
 
                 case 7:
