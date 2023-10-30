@@ -160,7 +160,7 @@ public class Admin extends Usuario{
 
                 case 3:
                     System.out.println("Introduce el ISBN del libro");
-                    String ISBN = teclado.next();
+                    String ISBN = teclado.nextLine();
                     System.out.println("Introduce el titulo del libro");
                     String titulo = teclado.nextLine();
                     System.out.println("Introduce el autor del libro");
