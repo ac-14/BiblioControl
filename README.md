@@ -52,3 +52,24 @@ Además, nuestra aplicación incluye una función que, utilizando el micrófono 
 <img width="882" alt="imagen" src="https://github.com/ac-14/TrabajoJava/assets/119895282/0dcdc540-0513-48a3-b900-6c2922718e67">
 </p>
 
+### Práctica 2
+Hemos agregado las clases principales del programa. Hemos hecho los menus de todas las clases y agregado algunas funcionalidades. A continuación agregamos imagenes del funcionamiento.
+
+Menú Usuario
+<p align="center">
+<img width="198" alt="Captura de pantalla 2023-10-30 a las 9 18 36" src="https://github.com/ac-14/TrabajoJava/assets/119895282/ac78a651-ca01-4400-82bb-62f0cb272eba"><img width="230" alt="Captura de pantalla 2023-10-30 a las 9 18 46" src="https://github.com/ac-14/TrabajoJava/assets/119895282/1c89d0a6-d28f-4339-b607-3d43889099aa">
+</p>
+
+Menú Admin
+<p align="center">
+<img width="214" alt="Captura de pantalla 2023-10-30 a las 9 23 39" src="https://github.com/ac-14/TrabajoJava/assets/119895282/594892ce-a126-47bd-adf9-eb9a903ae613"><img width="198" alt="Captura de pantalla 2023-10-30 a las 9 23 50" src="https://github.com/ac-14/TrabajoJava/assets/119895282/ee21356b-d572-48e2-befb-17583cf0ea1f">
+</p>
+
+Reserva libro
+<p align="center">
+<img width="391" alt="Captura de pantalla 2023-10-30 a las 9 22 35" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3718993d-c7e5-488a-977d-4268339f0435">
+</p>
+
+Añadir libro
+<p align="center">
+<img width="234" alt="Captura de pantalla 2023-10-30 a las 9 30 26" src="https://github.com/ac-14/TrabajoJava/assets/119895282/f27dd1a9-71e4-4a2d-b877-0113266c4708"><img width="386" alt="Captura de pantalla 2023-10-30 a las 9 32 02" src="https://github.com/ac-14/TrabajoJava/assets/119895282/1cff6f67-42b7-4946-a786-9c044c2ffba4">
