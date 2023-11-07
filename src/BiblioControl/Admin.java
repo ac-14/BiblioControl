@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Contiene los metodos para añadir y eliminar usuarios y libros, y para gestionar el sonido de la sala y las peticiones.
  */
 public class Admin extends Usuario{
-
+    private static ArrayList<String[]> peticiones = new ArrayList<>();
     /**
      * Constructor
      * @param DNI DNI del administrador
@@ -112,7 +112,42 @@ public class Admin extends Usuario{
 
     // METODO SONIDO SALA
 
-    // METODO GESTIONAR PETICIONES
+    /**
+     * Metodo para añadir peticiones
+     * Añade una nueva petición al ArrayList peticiones
+     * @param DNI DNI del usuario
+     * @param ISBN ISBN del libro solicitado por el usuario
+     */
+    public static void addPeticion(String DNI, String ISBN) {
+        peticiones.add(new String[] {DNI, ISBN});
+        System.out.println("Petición añadida: Usuario " + DNI + " ha solicitado el libro " + ISBN);
+    }
+
+    /**
+     * Metodo para mostrar las peticiones
+     * Recorre el ArrayList peticiones y muestra las peticiones
+     */
+    public static void mostrarPeticiones() {
+        for (String[] peticion : peticiones) {
+            System.out.println("Petición: Usuario " + peticion[0] + " para el libro " + peticion[1]);
+        }
+    }
+
+    /**
+     * Metodo para eliminar peticiones
+     * Busca la petición por el DNI y el ISBN y la elimina con el metodo remove de ArrayList
+     * @param DNI DNI del usuario
+     * @param ISBN ISBN del libro solicitado por el usuario
+     */
+    public static void eliminarPeticion(String DNI, String ISBN) {
+        for (int i = 0; i < peticiones.size(); i++) {
+            String[] peticion = peticiones.get(i);
+            if (peticion[0].equals(DNI) && peticion[1].equals(ISBN)) {
+                peticiones.remove(i);
+                break; // Salir del bucle una vez que se ha encontrado y eliminado la petición correspondiente
+            }
+        }
+    }
 
 
     /**
@@ -138,6 +173,7 @@ public class Admin extends Usuario{
             System.out.println("7. Salir");
 
             opcion = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -179,7 +215,13 @@ public class Admin extends Usuario{
                     break;
 
                 case 6:
-
+                    mostrarPeticiones();
+                    System.out.println("Introduce el DNI del usuario cuya petición quieres gestionar: ");
+                    DNI = teclado.next();
+                    System.out.println("Introduce el ISBN del libro de la petición que quieres gestionar: ");
+                    ISBN = teclado.next();
+                    eliminarPeticion(DNI, ISBN);
+                    System.out.println("Petición gestionada para el usuario " + DNI + " y el libro " + ISBN);
                     break;
 
                 case 7:
