@@ -3,6 +3,9 @@ package BiblioControl;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Bibliotecas para el sonido
+import javax.sound.sampled.*;
+
 /**
  * Clase Admin que hereda de Usuario.
  * Contiene los metodos para añadir y eliminar usuarios y libros, y para gestionar el sonido de la sala y las peticiones.
@@ -67,26 +70,25 @@ public class Admin extends Usuario{
     /**
      * Metodo para añadir libros al ArrayList Libros
      * Pide los datos del libro y crea un nuevo libro y lo añade al ArrayList
-     * @param ISBN ISBN del libro
+     *
+     * @param ISBN   ISBN del libro
      * @param titulo Titulo del libro
-     * @param autor Autor del libro
+     * @param autor  Autor del libro
      * @param Libros ArrayList de libros
-     * @return devuelve el ArrayList de libros actualizado
      */
-    public static ArrayList<Libro> addLibros(String ISBN, String titulo, String autor, ArrayList<Libro> Libros){
+    public static void addLibros(String ISBN, String titulo, String autor, ArrayList<Libro> Libros){
         Libro libro = new Libro(ISBN, titulo, autor);
         libro.setISBN(ISBN);
         libro.setTitulo(titulo);
         libro.setAutor(autor);
         Libros.add(libro);
-        return Libros;
     }
 
     /**
      * Metodo para eliminar libros del ArrayList Libros
      * Busca el libro por su ISBN y lo elimina con el metodo remove de ArrayList
-     * @param ISBN
-     * @param Libros
+     * @param ISBN ISBN del libro
+     * @param Libros ArrayList de libros
      */
     public static void delLibros(String ISBN, ArrayList<Libro> Libros){
         for(int i = 0; i < Libros.size(); i++){
@@ -109,8 +111,6 @@ public class Admin extends Usuario{
         }
         return false;
     }
-
-    // METODO SONIDO SALA
 
     /**
      * Metodo para añadir peticiones
@@ -149,6 +149,69 @@ public class Admin extends Usuario{
         }
     }
 
+    /**
+     * Metodo para medir el nivel de sonido de la sala
+     */
+    public static void medirNivelDeSonido() {
+        try {
+
+            AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
+            if (!AudioSystem.isLineSupported(info)) {
+                System.out.println("Micrófono no soportado");
+                return;
+            }
+            // Abrir el micrófono y comenzar a grabar
+            TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
+            line.open(format);
+            line.start();
+
+            // Solicitar segundos de medición
+            System.out.print("Durante cuántos segundos quieres medir el nivel de sonido? ");
+            Scanner teclado = new Scanner(System.in);
+            int segundos = teclado.nextInt();
+            int milisegundos = segundos * 1000;
+
+            // Leer datos del micrófono y calcular el nivel de sonido
+            byte[] buffer = new byte[1024];
+            // Se utiliza System.currentTimeMillis() para obtener el tiempo actual en milisegundos y se le suma la duración de la medición
+            long endTime = System.currentTimeMillis() + milisegundos;
+            System.out.println("Iniciando medición de sonido por " + segundos + " segundos...");
+
+            // Mientras el tiempo actual sea menor que el tiempo final, leer datos del micrófono y calcular el nivel de sonido
+            while (System.currentTimeMillis() < endTime) {
+                int bytesRead = line.read(buffer, 0, buffer.length);
+                // Calcular el nivel de sonido en decibelios
+                double level = calculateLevel(buffer, bytesRead);
+                System.out.print("\rNivel de sonido (dB): " + level);
+            }
+            line.stop();
+            line.close();
+            System.out.println("\nMedición de sonido completada.");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Metodo para calcular el nivel de sonido
+     * Como el sonido no se obtiene directamente en decibelios, se calcula el valor RMS (Root Mean Square) de la señal de audio y se convierte a decibelios
+     * @param buffer Array de bytes que contiene los datos de audio del micrófono
+     * @param bytesRead Número de bytes leídos del micrófono en el último ciclo
+     * @return devuelve el nivel de sonido en decibelios
+     */
+    private static double calculateLevel(byte[] buffer, int bytesRead) {
+        double sum = 0.0;
+
+        for (int i = 0; i < bytesRead; i++) {
+            sum += buffer[i] * buffer[i];
+        }
+        // Calcular el valor RMS (Root Mean Square) de la señal de audio y convertirlo a decibelios
+        double rms = Math.sqrt(sum / bytesRead);
+        double dB = 20 * Math.log10(rms);
+        return dB;
+    }
 
     /**
      * Metodo que muestra el menu de administrador
@@ -191,7 +254,6 @@ public class Admin extends Usuario{
                     }else{
                         System.out.println("Contraseña del administrador incorrecta");
                     }
-
                     break;
 
                 case 3:
@@ -211,7 +273,7 @@ public class Admin extends Usuario{
                     break;
 
                 case 5:
-                    // METODO SONIDO SALA
+                    medirNivelDeSonido();
                     break;
 
                 case 6:

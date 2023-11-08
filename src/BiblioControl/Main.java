@@ -35,7 +35,6 @@ public class Main {
     }
     /**
      * Metodo inicializarDatosPrueba sirve para inicializar los datos de prueba
-     *
      */
     private static void inicializarDatosPrueba() {
         Usuarios.add(new Usuario("12345678A", "Pepe", "1234", "1234"));
