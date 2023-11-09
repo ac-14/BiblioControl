@@ -11,7 +11,7 @@ import javax.sound.sampled.*;
  * Contiene los metodos para añadir y eliminar usuarios y libros, y para gestionar el sonido de la sala y las peticiones.
  */
 public class Admin extends Usuario{
-    private static ArrayList<String[]> peticiones = new ArrayList<>();
+    private static ArrayList<Libro> peticiones = new ArrayList<>();
     /**
      * Constructor
      * @param DNI DNI del administrador
@@ -51,8 +51,6 @@ public class Admin extends Usuario{
         System.out.println("Usuario creado.");
     }
 
-
-
     /**
      * Metodo para eliminar usuarios del ArrayList Usuarios
      * Busca el usuario por su DNI y lo elimina
@@ -70,7 +68,6 @@ public class Admin extends Usuario{
     /**
      * Metodo para añadir libros al ArrayList Libros
      * Pide los datos del libro y crea un nuevo libro y lo añade al ArrayList
-     *
      * @param ISBN   ISBN del libro
      * @param titulo Titulo del libro
      * @param autor  Autor del libro
@@ -113,14 +110,12 @@ public class Admin extends Usuario{
     }
 
     /**
-     * Metodo para añadir peticiones
-     * Añade una nueva petición al ArrayList peticiones
-     * @param DNI DNI del usuario
-     * @param ISBN ISBN del libro solicitado por el usuario
+     * Metodo para añadir peticiones de libros
+     * @param libro Libro que se va a añadir a las peticiones
      */
-    public static void addPeticion(String DNI, String ISBN) {
-        peticiones.add(new String[] {DNI, ISBN});
-        System.out.println("Petición añadida: Usuario " + DNI + " ha solicitado el libro " + ISBN);
+    public static void addPeticion(Libro libro) {
+        peticiones.add(libro);
+        System.out.println("Petición añadida: " + libro.getTitulo() + " (ISBN: " + libro.getISBN() + ")");
     }
 
     /**
@@ -128,26 +123,25 @@ public class Admin extends Usuario{
      * Recorre el ArrayList peticiones y muestra las peticiones
      */
     public static void mostrarPeticiones() {
-        for (String[] peticion : peticiones) {
-            System.out.println("Petición: Usuario " + peticion[0] + " para el libro " + peticion[1]);
+        for (int i = 0; i < peticiones.size(); i++) {
+            Libro libro = peticiones.get(i);
+            System.out.println((i + 1) + ". " + libro.getTitulo() + " (ISBN: " + libro.getISBN() + ")");
         }
     }
 
     /**
      * Metodo para eliminar peticiones
-     * Busca la petición por el DNI y el ISBN y la elimina con el metodo remove de ArrayList
-     * @param DNI DNI del usuario
-     * @param ISBN ISBN del libro solicitado por el usuario
+     * @param index Indice de la peticion que se va a eliminar
      */
-    public static void eliminarPeticion(String DNI, String ISBN) {
-        for (int i = 0; i < peticiones.size(); i++) {
-            String[] peticion = peticiones.get(i);
-            if (peticion[0].equals(DNI) && peticion[1].equals(ISBN)) {
-                peticiones.remove(i);
-                break; // Salir del bucle una vez que se ha encontrado y eliminado la petición correspondiente
-            }
+    public static void eliminarPeticion(int index) {
+        if (index >= 0 && index < peticiones.size()) {
+            peticiones.remove(index);
+            System.out.println("Petición eliminada.");
+        } else {
+            System.out.println("Índice de petición no válido.");
         }
     }
+
 
     /**
      * Metodo para medir el nivel de sonido de la sala
@@ -278,12 +272,25 @@ public class Admin extends Usuario{
 
                 case 6:
                     mostrarPeticiones();
-                    System.out.println("Introduce el DNI del usuario cuya petición quieres gestionar: ");
-                    DNI = teclado.next();
-                    System.out.println("Introduce el ISBN del libro de la petición que quieres gestionar: ");
-                    ISBN = teclado.next();
-                    eliminarPeticion(DNI, ISBN);
-                    System.out.println("Petición gestionada para el usuario " + DNI + " y el libro " + ISBN);
+                    System.out.println("Escribe el número de la petición que quieres gestionar:");
+                    int indicePeticion = teclado.nextInt() - 1;
+
+                    System.out.println("¿Quieres añadir el libro a la biblioteca o eliminar la petición? (añadir/eliminar):");
+                    String accion = teclado.next();
+
+                    if ("añadir".equalsIgnoreCase(accion)) {
+                        if (indicePeticion >= 0 && indicePeticion < peticiones.size()) {
+                            Libro libroAAñadir = peticiones.get(indicePeticion);
+                            addLibros(libroAAñadir.getISBN(), libroAAñadir.getTitulo(), libroAAñadir.getAutor(), Libros);
+                            eliminarPeticion(indicePeticion);
+                        } else {
+                            System.out.println("Índice de petición no válido.");
+                        }
+                    } else if ("eliminar".equalsIgnoreCase(accion)) {
+                        eliminarPeticion(indicePeticion);
+                    } else {
+                        System.out.println("Acción no reconocida.");
+                    }
                     break;
 
                 case 7:

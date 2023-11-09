@@ -14,8 +14,8 @@ public class Main {
         boolean salir = false;
         while (!salir) {
             mostrarMenuPrincipal();
+            // new InterfazBiblioControl();
             int opcion = teclado.nextInt();
-
             switch (opcion) {
                 case 1:
                     iniciarSesion();
@@ -77,7 +77,7 @@ public class Main {
 
     /**
      * Metodo buscarUsuarioPorDNI busca un usuario por su DNI
-     * @param DNI
+     * @param DNI DNI del usuario que queremos buscar
      * @return devuelve el usuario si lo encuentra, si no devuelve null
      */
     private static Usuario buscarUsuarioPorDNI(String DNI) {

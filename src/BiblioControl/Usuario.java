@@ -152,8 +152,15 @@ public class Usuario {
         return Character.isLetter(letra); // Devuelve true si el último carácter es una letra.
     }
 
-    // Método para que el usuario solicite un libro
-    public void solicitarLibro(String ISBN, ArrayList<Libro> biblioteca) {
+    /**
+     * Metodo solicitarLibro
+     * Añade una peticion de libro a la lista de peticiones
+     * @param ISBN ISBN del libro
+     * @param titulo Titulo del libro
+     * @param autor Autor del libro
+     * @param biblioteca ArrayList de libros
+     */
+    public void solicitarLibro(String ISBN, String titulo, String autor, ArrayList<Libro> biblioteca) {
         // Comprobar si el libro existe y está disponible en la biblioteca
         for (Libro libro : biblioteca) {
             if (libro.getISBN().equals(ISBN)) {
@@ -164,8 +171,8 @@ public class Usuario {
                 }
             }
         }
-        // Si el libro no está disponible o no existe en la biblioteca, permitir la solicitud
-        Admin.addPeticion(this.getDNI(), ISBN);
+        Libro libroSolicitado = new Libro(ISBN, titulo, autor);
+        Admin.addPeticion(libroSolicitado);
     }
 
     /**
@@ -209,9 +216,14 @@ public class Usuario {
                     }
                     break;
                 case 2:
-                    System.out.println("Introduce el ISBN del libro que deseas solicitar: ");
+                    System.out.println("Introduce el ISBN del libro que deseas solicitar:");
                     String ISBN = teclado.next();
-                    this.solicitarLibro(ISBN,biblioteca);
+                    teclado.nextLine();
+                    System.out.println("Introduce el título del libro:");
+                    String titulo = teclado.nextLine();
+                    System.out.println("Introduce el autor del libro:");
+                    String autor = teclado.nextLine();
+                    this.solicitarLibro(ISBN, titulo, autor, biblioteca);
                     break;
                 case 3:
                     // Devolver libro
