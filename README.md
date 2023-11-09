@@ -81,3 +81,6 @@ Menús
 <p align="center">
 <img width="321" alt="Captura de pantalla 2023-11-09 a las 11 10 52" src="https://github.com/ac-14/TrabajoJava/assets/119895282/eb071fbe-d54f-43d5-a9e2-520723f02716"><img width="323" alt="Captura de pantalla 2023-11-09 a las 11 12 10" src="https://github.com/ac-14/TrabajoJava/assets/119895282/dba8929f-c758-4d95-a2f0-e971e81e7379"><img width="320" alt="Captura de pantalla 2023-11-09 a las 11 11 55" src="https://github.com/ac-14/TrabajoJava/assets/119895282/8cf59ab9-e508-4773-9b5d-5a001d41472c">
 </p>
+
+Función Peticiones
+
