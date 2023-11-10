@@ -87,4 +87,7 @@ Función Peticiones
 <img width="558" alt="Captura de pantalla 2023-11-09 a las 12 05 41" src="https://github.com/ac-14/TrabajoJava/assets/119895282/b101e54c-0bd0-41f3-bca3-c97732cec004"><img width="656" alt="Captura de pantalla 2023-11-09 a las 12 05 58" src="https://github.com/ac-14/TrabajoJava/assets/119895282/cec8caec-d69d-46ec-851c-60c4db97be40">
 </p>
 
-
+Medición de Sonido
+<p align="center">
+<img width="490" alt="Captura de pantalla 2023-11-10 a las 11 48 33" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3b341846-9258-41b4-9aef-f4e6e31fe1ae">
+</p>
