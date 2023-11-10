@@ -102,11 +102,20 @@ public class Admin extends Usuario{
      * @param password Contraseña del administrador
      * @return devuelve true si el usuario y la contraseña son correctos, false si no lo son
      */
-    public static boolean autenticarAdmin(String DNI, String password) {
-        if (DNI.equals("admin") && password.equals("adminpassword")) {
+    public static boolean autenticarAdmin(Admin admin, String password) {
+        if (admin.getDNI().equals("admin") && admin.ComprobarPassword(password)) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Excepcion para cuando no hay peticiones
+     */
+    public static class SinPeticionesException extends Exception {
+        public SinPeticionesException(String mensaje) {
+            super(mensaje);
+        }
     }
 
     /**
@@ -122,7 +131,10 @@ public class Admin extends Usuario{
      * Metodo para mostrar las peticiones
      * Recorre el ArrayList peticiones y muestra las peticiones
      */
-    public static void mostrarPeticiones() {
+    public static void mostrarPeticiones() throws SinPeticionesException {
+        if (peticiones.isEmpty()) {
+            throw new SinPeticionesException("No hay peticiones para mostrar.");
+        }
         for (int i = 0; i < peticiones.size(); i++) {
             Libro libro = peticiones.get(i);
             System.out.println((i + 1) + ". " + libro.getTitulo() + " (ISBN: " + libro.getISBN() + ")");
@@ -131,7 +143,22 @@ public class Admin extends Usuario{
 
     /**
      * Metodo para eliminar peticiones
-     * @param index Indice de la peticion que se va a eliminar
+     */
+    private static int obtenerIndicePeticion() {
+        Scanner teclado = new Scanner(System.in);
+        try {
+            mostrarPeticiones();
+            System.out.println("Escribe el número de la petición que quieres gestionar:");
+            return teclado.nextInt() - 1;
+        } catch (SinPeticionesException e) {
+            System.out.println(e.getMessage());
+            return -1; // Indica que no hay peticiones
+        }
+    }
+
+    /**
+     * Metodo para eliminar peticiones
+     * @param index Indice de la petición que se va a eliminar
      */
     public static void eliminarPeticion(int index) {
         if (index >= 0 && index < peticiones.size()) {
@@ -142,6 +169,20 @@ public class Admin extends Usuario{
         }
     }
 
+    /**
+     * Metodo para obtener el indice de la peticion
+     * @param indicePeticion Indice de la peticion
+     * @param Libros ArrayList de libros
+     */
+    private static void gestionarAddLibro(int indicePeticion, ArrayList<Libro> Libros) {
+        if (indicePeticion >= 0 && indicePeticion < peticiones.size()) {
+            Libro libroAAñadir = peticiones.get(indicePeticion);
+            addLibros(libroAAñadir.getISBN(), libroAAñadir.getTitulo(), libroAAñadir.getAutor(), Libros);
+            eliminarPeticion(indicePeticion);
+        } else {
+            System.out.println("Índice de petición no válido.");
+        }
+    }
 
     /**
      * Metodo para medir el nivel de sonido de la sala
@@ -236,7 +277,6 @@ public class Admin extends Usuario{
                 case 1:
                     AddUsuario(Usuarios);
                     break;
-
                 case 2:
                     System.out.println("Introduce el DNI del usuario que quieres eliminar");
                     String DNI = teclado.next();
@@ -249,7 +289,6 @@ public class Admin extends Usuario{
                         System.out.println("Contraseña del administrador incorrecta");
                     }
                     break;
-
                 case 3:
                     System.out.println("Introduce el ISBN del libro");
                     String ISBN = teclado.nextLine();
@@ -259,45 +298,35 @@ public class Admin extends Usuario{
                     String autor = teclado.nextLine();
                     addLibros(ISBN, titulo, autor, Libros);
                     break;
-
                 case 4:
                     System.out.print("Introduce el ISBN del libro que quieres eliminar: ");
                     ISBN = teclado.next();
                     delLibros(ISBN, Libros);
                     break;
-
                 case 5:
                     medirNivelDeSonido();
                     break;
-
                 case 6:
-                    mostrarPeticiones();
-                    System.out.println("Escribe el número de la petición que quieres gestionar:");
-                    int indicePeticion = teclado.nextInt() - 1;
-
+                    int indicePeticion = obtenerIndicePeticion();
+                    // Verifica si hay peticiones disponibles
+                    if (indicePeticion == -1) {
+                        break;
+                    }
                     System.out.println("¿Quieres añadir el libro a la biblioteca o eliminar la petición? (añadir/eliminar):");
                     String accion = teclado.next();
 
                     if ("añadir".equalsIgnoreCase(accion)) {
-                        if (indicePeticion >= 0 && indicePeticion < peticiones.size()) {
-                            Libro libroAAñadir = peticiones.get(indicePeticion);
-                            addLibros(libroAAñadir.getISBN(), libroAAñadir.getTitulo(), libroAAñadir.getAutor(), Libros);
-                            eliminarPeticion(indicePeticion);
-                        } else {
-                            System.out.println("Índice de petición no válido.");
-                        }
+                        gestionarAddLibro(indicePeticion, Libros);
                     } else if ("eliminar".equalsIgnoreCase(accion)) {
                         eliminarPeticion(indicePeticion);
                     } else {
                         System.out.println("Acción no reconocida.");
                     }
                     break;
-
                 case 7:
                     System.out.println("Cerrando sesión...");
                     salir = true;
                     break;
-
                 default:
                     System.out.println("Solo números entre 1 y 7");
             }

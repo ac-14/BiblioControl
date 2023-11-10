@@ -7,6 +7,7 @@ public class Main {
     private static Scanner teclado = new Scanner(System.in);
     private static ArrayList<Usuario> Usuarios = new ArrayList<>();
     private static ArrayList<Libro> Libros = new ArrayList<>();
+    private static Admin admin = new Admin("admin", "adminpassword");
 
     public static void main(String[] args) {
         inicializarDatosPrueba();
@@ -66,7 +67,7 @@ public class Main {
         System.out.println("Introduce tu contraseña");
         String password = teclado.next();
 
-        if (UsuarioTemp == null && Admin.autenticarAdmin(DNI, password)) {
+        if (UsuarioTemp == null && Admin.autenticarAdmin(admin, password)) {
             Admin.MenuAdmin(Usuarios, Libros);
         } else if (UsuarioTemp == null) {
             System.out.println("El usuario no existe o credenciales de administrador incorrectas.");

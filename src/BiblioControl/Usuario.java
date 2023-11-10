@@ -208,7 +208,6 @@ public class Usuario {
                             break;
                         }
                     }
-
                     if (libroReserva != null) {
                         reservarLibro(libroReserva, biblioteca);
                     } else {
@@ -216,6 +215,7 @@ public class Usuario {
                     }
                     break;
                 case 2:
+                    // Solicitar libro
                     System.out.println("Introduce el ISBN del libro que deseas solicitar:");
                     String ISBN = teclado.next();
                     teclado.nextLine();
@@ -237,14 +237,12 @@ public class Usuario {
                             break;
                         }
                     }
-
                     if (libroDevolucion != null) {
                         devolverLibro(libroDevolucion, biblioteca);
                     } else {
                         System.out.println("No has reservado este libro.");
                     }
                     break;
-
                 case 4:
                     System.out.print("Introduce tu contraseña actual: ");
                     String passwordActual = teclado.next();
@@ -266,7 +264,6 @@ public class Usuario {
                         System.out.println("Pista de contraseña cambiada correctamente");
                     }
                     break;
-
                 case 5:
                     System.out.println("Cerrando sesión...");
                     salir = true; // Salir del menú de usuario
