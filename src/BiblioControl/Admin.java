@@ -12,7 +12,6 @@ import javax.sound.sampled.*;
  */
     public class Admin extends Usuario {
 
-
     private static ArrayList<Libro> peticiones = new ArrayList<>();
     /**
      * Constructor
@@ -178,8 +177,8 @@ import javax.sound.sampled.*;
      */
     private static void gestionarAddLibro(int indicePeticion, ArrayList<Libro> Libros) {
         if (indicePeticion >= 0 && indicePeticion < peticiones.size()) {
-            Libro libroAAñadir = peticiones.get(indicePeticion);
-            addLibros(libroAAñadir.getISBN(), libroAAñadir.getTitulo(), libroAAñadir.getAutor(), Libros);
+            Libro libro = peticiones.get(indicePeticion);
+            addLibros(libro.getISBN(), libro.getTitulo(), libro.getAutor(), Libros);
             eliminarPeticion(indicePeticion);
         } else {
             System.out.println("Índice de petición no válido.");
