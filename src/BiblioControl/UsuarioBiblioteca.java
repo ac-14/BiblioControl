@@ -1,6 +1,5 @@
 package BiblioControl;
 
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,11 +7,7 @@ import java.util.Scanner;
  * Clase Usuario
  * Contiene los atributos de un usuario y sus metodos get y set ademas del menu de usuario
  */
-public class Usuario {
-    private String DNI;
-    private String nombre;
-    private String password;
-    private String pistaPassword;
+public class UsuarioBiblioteca extends Usuario{
     private ArrayList<Libro> librosReservados = new ArrayList<>();
 
     /**
@@ -22,76 +17,10 @@ public class Usuario {
      * @param password Contraseña del usuario
      * @param pistaPassword Pista de la contraseña del usuario
      */
-    public Usuario(String DNI, String nombre, String password, String pistaPassword) {
-        this.DNI = DNI;
-        this.nombre = nombre;
-        this.password = password;
-        this.pistaPassword = pistaPassword;
+    public UsuarioBiblioteca(String DNI, String nombre, String password, String pistaPassword) {
+        super(DNI, nombre, password, pistaPassword);
     }
 
-    /**
-     * Metodo getDNI
-     * @return devuelve el DNI del usuario
-     */
-    public String getDNI() {
-        return DNI;
-    }
-
-    /**
-     * Metodo setDNI
-     * @return DNI del usuario
-     */
-    public void setDNI(String DNI) {
-        this.DNI = DNI;
-    }
-
-    /**
-     * Metodo getNombre
-     * @return devuelve el nombre del usuario
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Metodo setNombre
-     * @param nombre Nombre del usuario
-     */
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    /**
-     * Metodo setPassword
-     * @param password Contraseña del usuario
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Metodo getPassword
-     * @return devuelve la contraseña del usuario
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * Metodo setPistaPassword
-     * @param pistaPassword Pista de la contraseña del usuario
-     */
-    public void setPistaPassword(String pistaPassword) {
-        this.pistaPassword = pistaPassword;
-    }
-
-    /**
-     * Metodo getPistaPassword
-     * @return devuelve la pista de la contraseña del usuario
-     */
-    public String getPistaPassword() {
-        return this.pistaPassword;
-    }
 
     /**
      * Metodo reservarLibro
@@ -126,33 +55,6 @@ public class Usuario {
     }
 
     /**
-     * Metodo ComprobarPassword
-     * @param password
-     * @return devuelve true si la contraseña es correcta
-     */
-     public boolean ComprobarPassword(String password) {
-        return this.password.equals(password);
-    }
-
-    /**
-     * Metodo validarDNI
-     * @param DNI DNI del usuario
-     * @return devuelve true si el DNI es correcto
-     */
-    public static boolean validarDNI(String DNI) {
-        if (DNI.length() != 9) {
-            return false; // Si la longitud no es 9, no es un DNI válido.
-        }
-        for (int i = 0; i < 8; i++) {
-            if (DNI.charAt(i) < '0' || DNI.charAt(i) > '9') {
-                return false; // Si algún carácter no es un dígito, no es un DNI válido.
-            }
-        }
-        char letra = DNI.charAt(8);
-        return Character.isLetter(letra); // Devuelve true si el último carácter es una letra.
-    }
-
-    /**
      * Metodo solicitarLibro
      * Añade una peticion de libro a la lista de peticiones
      * @param ISBN ISBN del libro
@@ -178,9 +80,10 @@ public class Usuario {
     /**
      * Metodo MenuUsuario
      * Muestra el menu de usuario y sus opciones
-     * @param biblioteca ArrayList de libros
+     * @param Usuarios ArrayList de usuarios
+     * @param Libros ArrayList de libros
      */
-    public void MenuUsuario(ArrayList<Libro> biblioteca) {
+     public void Menu(ArrayList<UsuarioBiblioteca> Usuarios, ArrayList<Libro> Libros) {
         boolean salir = false;
         Scanner teclado = new Scanner(System.in);
         int opcion;
@@ -202,14 +105,14 @@ public class Usuario {
                     String ISBNReserva = teclado.next();
 
                     Libro libroReserva = null;
-                    for (Libro libro : biblioteca) {
+                    for (Libro libro : Libros) {
                         if (libro.getISBN().equals(ISBNReserva) && libro.getDisponible()) {
                             libroReserva = libro;
                             break;
                         }
                     }
                     if (libroReserva != null) {
-                        reservarLibro(libroReserva, biblioteca);
+                        reservarLibro(libroReserva, Libros);
                     } else {
                         System.out.println("El libro no está disponible o no existe.");
                     }
@@ -223,7 +126,7 @@ public class Usuario {
                     String titulo = teclado.nextLine();
                     System.out.println("Introduce el autor del libro:");
                     String autor = teclado.nextLine();
-                    this.solicitarLibro(ISBN, titulo, autor, biblioteca);
+                    this.solicitarLibro(ISBN, titulo, autor, Libros);
                     break;
                 case 3:
                     // Devolver libro
@@ -238,7 +141,7 @@ public class Usuario {
                         }
                     }
                     if (libroDevolucion != null) {
-                        devolverLibro(libroDevolucion, biblioteca);
+                        devolverLibro(libroDevolucion, Libros);
                     } else {
                         System.out.println("No has reservado este libro.");
                     }

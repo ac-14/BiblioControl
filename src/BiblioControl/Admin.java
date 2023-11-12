@@ -10,7 +10,9 @@ import javax.sound.sampled.*;
  * Clase Admin que hereda de Usuario.
  * Contiene los metodos para añadir y eliminar usuarios y libros, y para gestionar el sonido de la sala y las peticiones.
  */
-public class Admin extends Usuario{
+    public class Admin extends Usuario {
+
+
     private static ArrayList<Libro> peticiones = new ArrayList<>();
     /**
      * Constructor
@@ -26,14 +28,14 @@ public class Admin extends Usuario{
      * Pide los datos del usuario y crea un nuevo usuario
      * @param Usuarios ArrayList de usuarios
      */
-    public static void AddUsuario(ArrayList<Usuario> Usuarios){
+    public static void AddUsuario(ArrayList<UsuarioBiblioteca> Usuarios){
         Scanner teclado = new Scanner(System.in);
 
         System.out.println("Introduce tu DNI");
         String DNI = teclado.nextLine();
 
         // Utilizar el método validarDNI para comprobar la validez del DNI introducido.
-        while (!Usuario.validarDNI(DNI)) {
+        while (!UsuarioBiblioteca.validarDNI(DNI)) {
             System.out.println("El DNI introducido no es válido. Por favor, vuelve a introducir tu DNI.");
             DNI = teclado.nextLine();
         }
@@ -46,7 +48,7 @@ public class Admin extends Usuario{
         String pistaPassword = teclado.nextLine();
 
         // Crear un nuevo usuario y agregarlo a la lista de Usuarios
-        Usuario nuevoUsuario = new Usuario(DNI, nombre, password, pistaPassword);
+        UsuarioBiblioteca nuevoUsuario = new UsuarioBiblioteca(DNI, nombre, password, pistaPassword);
         Usuarios.add(nuevoUsuario);
         System.out.println("Usuario creado.");
     }
@@ -57,7 +59,7 @@ public class Admin extends Usuario{
      * @param DNI DNI del usuario
      * @param Usuarios ArrayList de usuarios
      */
-    public static void DelUsuario(String DNI, ArrayList<Usuario> Usuarios){
+    public static void DelUsuario(String DNI, ArrayList<UsuarioBiblioteca> Usuarios){
         for(int i = 0; i < Usuarios.size(); i++){
             if(Usuarios.get(i).getDNI().equals(DNI)){
                 Usuarios.remove(i);
@@ -254,7 +256,7 @@ public class Admin extends Usuario{
      * @param Usuarios ArrayList de usuarios de la biblioteca
      * @param Libros ArrayList de libros de la biblioteca
      */
-    public static void MenuAdmin(ArrayList<Usuario> Usuarios, ArrayList<Libro> Libros){
+    public void Menu(ArrayList<UsuarioBiblioteca> Usuarios, ArrayList<Libro> Libros){
         Admin admin = new Admin("admin", "adminpassword");
         boolean salir = false;
         Scanner teclado = new Scanner(System.in);
