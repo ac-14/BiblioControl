@@ -175,7 +175,7 @@ import javax.sound.sampled.*;
      * @param indicePeticion Indice de la peticion
      * @param Libros ArrayList de libros
      */
-    private static void gestionarAddLibro(int indicePeticion, ArrayList<Libro> Libros) {
+    public static void gestionarAddLibro(int indicePeticion, ArrayList<Libro> Libros) {
         if (indicePeticion >= 0 && indicePeticion < peticiones.size()) {
             Libro libro = peticiones.get(indicePeticion);
             addLibros(libro.getISBN(), libro.getTitulo(), libro.getAutor(), Libros);
