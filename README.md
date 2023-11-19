@@ -55,22 +55,22 @@ Además, nuestra aplicación incluye una función que, utilizando el micrófono 
 ### Práctica 2
 Hemos agregado las clases principales del programa. Hemos hecho los menus de todas las clases y agregado algunas funcionalidades. A continuación agregamos imagenes del funcionamiento.
 
-Menú Usuario
+**Menú Usuario**
 <p align="center">
 <img width="198" alt="Captura de pantalla 2023-10-30 a las 9 18 36" src="https://github.com/ac-14/TrabajoJava/assets/119895282/ac78a651-ca01-4400-82bb-62f0cb272eba"><img width="230" alt="Captura de pantalla 2023-10-30 a las 9 18 46" src="https://github.com/ac-14/TrabajoJava/assets/119895282/1c89d0a6-d28f-4339-b607-3d43889099aa">
 </p>
 
-Menú Admin
+**Menú Admin**
 <p align="center">
 <img width="214" alt="Captura de pantalla 2023-10-30 a las 9 23 39" src="https://github.com/ac-14/TrabajoJava/assets/119895282/594892ce-a126-47bd-adf9-eb9a903ae613"><img width="198" alt="Captura de pantalla 2023-10-30 a las 9 23 50" src="https://github.com/ac-14/TrabajoJava/assets/119895282/ee21356b-d572-48e2-befb-17583cf0ea1f">
 </p>
 
-Reserva libro
+**Reserva libro**
 <p align="center">
 <img width="391" alt="Captura de pantalla 2023-10-30 a las 9 22 35" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3718993d-c7e5-488a-977d-4268339f0435">
 </p>
 
-Añadir libro
+**Añadir libro**
 <p align="center">
 <img width="234" alt="Captura de pantalla 2023-10-30 a las 9 30 26" src="https://github.com/ac-14/TrabajoJava/assets/119895282/f27dd1a9-71e4-4a2d-b877-0113266c4708"><img width="386" alt="Captura de pantalla 2023-10-30 a las 9 32 02" src="https://github.com/ac-14/TrabajoJava/assets/119895282/1cff6f67-42b7-4946-a786-9c044c2ffba4">
 
@@ -82,12 +82,12 @@ Menús
 <img width="321" alt="Captura de pantalla 2023-11-09 a las 11 10 52" src="https://github.com/ac-14/TrabajoJava/assets/119895282/eb071fbe-d54f-43d5-a9e2-520723f02716"><img width="323" alt="Captura de pantalla 2023-11-09 a las 11 12 10" src="https://github.com/ac-14/TrabajoJava/assets/119895282/dba8929f-c758-4d95-a2f0-e971e81e7379"><img width="320" alt="Captura de pantalla 2023-11-09 a las 11 11 55" src="https://github.com/ac-14/TrabajoJava/assets/119895282/8cf59ab9-e508-4773-9b5d-5a001d41472c">
 </p>
 
-Función Peticiones
+**Función Peticiones**
 <p align="center">
 <img width="558" alt="Captura de pantalla 2023-11-09 a las 12 05 41" src="https://github.com/ac-14/TrabajoJava/assets/119895282/b101e54c-0bd0-41f3-bca3-c97732cec004"><img width="656" alt="Captura de pantalla 2023-11-09 a las 12 05 58" src="https://github.com/ac-14/TrabajoJava/assets/119895282/cec8caec-d69d-46ec-851c-60c4db97be40">
 </p>
 
-Medición de Sonido
+**Medición de Sonido**
 <p align="center">
 <img width="490" alt="Captura de pantalla 2023-11-10 a las 11 48 33" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3b341846-9258-41b4-9aef-f4e6e31fe1ae">
 </p>
@@ -95,13 +95,15 @@ Medición de Sonido
 ### Práctica 4
 Hemos creado las interfaces para cada método
 
-Funciones de administrador
+**Funciones de administrador**
 <p align="center">
 <img width="462" alt="Captura de pantalla 2023-11-19 a las 16 01 37" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3f1ddae5-3e1f-4c6e-9338-5349349fec94"><img width="512" alt="Captura de pantalla 2023-11-19 a las 15 59 19" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3c098e07-a268-40ce-b276-60f4710d2328"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 59" src="https://github.com/ac-14/TrabajoJava/assets/119895282/65241b66-2860-4d5b-a4cc-98d5e0ad4572"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 53" src="https://github.com/ac-14/TrabajoJava/assets/119895282/94a5d375-3373-4e94-86c5-8492d11c0420"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 44" src="https://github.com/ac-14/TrabajoJava/assets/119895282/cf7ace64-f05a-4f39-8a5f-beff2fdd4b73"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 29" src="https://github.com/ac-14/TrabajoJava/assets/119895282/9729c9ef-87e6-43f3-84db-971e5ffeee45">
 </p>
 
-Funciones de Usuario
+**Funciones de Usuario**
 <p align="center">
 <img width="412" alt="Captura de pantalla 2023-11-19 a las 16 02 38" src="https://github.com/ac-14/TrabajoJava/assets/119895282/16ba3010-733b-4436-a397-ad69622e05c9"><img width="412" alt="Captura de pantalla 2023-11-19 a las 16 02 27" src="https://github.com/ac-14/TrabajoJava/assets/119895282/639983b1-7542-48a5-bae9-f5d7f56dd0fb"><img width="512" alt="Captura de pantalla 2023-11-19 a las 16 02 23" src="https://github.com/ac-14/TrabajoJava/assets/119895282/7005bb8a-95f0-4ac6-bfe9-bee223a3747e"><img width="462" alt="Captura de pantalla 2023-11-19 a las 16 02 11" src="https://github.com/ac-14/TrabajoJava/assets/119895282/1d3a2e85-09c9-4c98-b125-d22c22cffc73">
 </p>
+
+Hemos implementado el patrón de diseño **"Singleton"**, que nos sirve para que una clase tenga una única instancia, en este caso **Admin**
 
