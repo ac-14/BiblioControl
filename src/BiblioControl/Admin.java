@@ -29,7 +29,7 @@ import javax.sound.sampled.*;
      */
     public static Admin getInstance() {
         if (instance == null) {
-            instance = new Admin("adminDNI", "adminPassword");
+            instance = new Admin("admin", "adminpassword");
         }
         return instance;
     }
