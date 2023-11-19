@@ -106,4 +106,17 @@ Hemos creado las interfaces para cada método
 </p>
 
 Hemos implementado el patrón de diseño **"Singleton"**, que nos sirve para que una clase tenga una única instancia, en este caso **Admin**
+```Java
+private static Admin instance;
+/**
+     * Metodo para obtener la instancia de Admin (Singleton)
+     * @return devuelve la instancia de Admin
+     */
+    public static Admin getInstance() {
+        if (instance == null) {
+            instance = new Admin("admin", "adminpassword");
+        }
+        return instance;
+    }
+```
 
