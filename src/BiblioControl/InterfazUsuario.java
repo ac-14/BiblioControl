@@ -2,52 +2,74 @@ package BiblioControl;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.*;
 
-public class InterfazUsuario extends JFrame {
+/**
+ * Clase que representa la interfaz gráfica para el usuario
+ */
+public class InterfazUsuario extends JFrame implements ActionListener {
     private UsuarioBiblioteca usuarioActual;
+    private JButton btnReservarLibro, btnSolicitarLibro, btnDevolverLibro, btnCambiarPassword, btnSalir;
 
-    public InterfazUsuario(UsuarioBiblioteca usuario, ArrayList<Libro> libros) {
+    /**
+     * Constructor de la clase InterfazUsuario que recibe un usuario y muestra la interfaz gráfica para el usuario
+     * @param usuario el usuario
+     */
+    public InterfazUsuario(UsuarioBiblioteca usuario) {
         this.usuarioActual = usuario;
         setTitle("Usuario - BiblioControl");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(320, 240);
+        setSize(190, 180);
         setLocationRelativeTo(null);
 
-        // Creamos los botones para las acciones del usuario
-        JButton btnBuscarLibro = new JButton("Buscar Libro");
-        JButton btnSolicitarLibro = new JButton("Solicitar Libro");
-        JButton btnVerPrestamos = new JButton("Ver Préstamos");
-        JButton btnSalir = new JButton("Salir");
+        btnReservarLibro = new JButton("Reservar Libro");
+        btnSolicitarLibro = new JButton("Solicitar Libro");
+        btnDevolverLibro = new JButton("Devolver Libro");
+        btnCambiarPassword = new JButton("Cambiar Contraseña");
+        btnSalir = new JButton("Salir");
 
-        // Alineamos los botones en el centro
-        btnBuscarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnSolicitarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnVerPrestamos.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnReservarLibro.addActionListener(this);
+        btnSolicitarLibro.addActionListener(this);
+        btnDevolverLibro.addActionListener(this);
+        btnCambiarPassword.addActionListener(this);
+        btnSalir.addActionListener(this);
 
-        // Creamos un panel con BoxLayout vertical
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        panel.add(btnBuscarLibro);
+        btnReservarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnSolicitarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnDevolverLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnCambiarPassword.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panel.add(btnReservarLibro);
         panel.add(btnSolicitarLibro);
-        panel.add(btnVerPrestamos);
+        panel.add(btnDevolverLibro);
+        panel.add(btnCambiarPassword);
         panel.add(btnSalir);
 
         getContentPane().add(panel);
         setVisible(true);
     }
 
-    // Método main para probar la interfaz de manera independiente
-    public static void main(String[] args) {
-        // Crear un usuario de prueba y una lista de libros de prueba
-        UsuarioBiblioteca usuarioDePrueba = new UsuarioBiblioteca("12345678A", "UsuarioPrueba", "contraseña", "pista");
-        ArrayList<Libro> librosDePrueba = new ArrayList<>();
-        librosDePrueba.add(new Libro("1234567890", "El Quijote", "Cervantes"));
-        librosDePrueba.add(new Libro("0987654321", "El Señor de los Anillos", "Tolkien"));
 
-        // Aquí pasamos el usuario de prueba y la lista de libros al constructor de InterfazUsuario
-        new InterfazUsuario(usuarioDePrueba, librosDePrueba);
+    /**
+     * Método que procesa los eventos de la interfaz gráfica
+     * @param e el evento
+     */
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnReservarLibro) {
+            new ReservarLibroGUI(usuarioActual, Main.getLibros());
+        } else if (e.getSource() == btnSolicitarLibro) {
+            new SolicitarLibroGUI(usuarioActual, Main.getLibros());
+        } else if (e.getSource() == btnDevolverLibro) {
+            new DevolverLibroGUI(usuarioActual, Main.getLibros());
+        } else if (e.getSource() == btnCambiarPassword) {
+            new CambiarPasswordGUI(usuarioActual);
+        } else if (e.getSource() == btnSalir) {
+            dispose(); // Cierra la ventana
+            new InterfazBiblioControl(); // Abre la interfaz de inicio de sesión
+        }
     }
 }

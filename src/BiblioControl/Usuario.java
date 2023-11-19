@@ -1,12 +1,14 @@
 package BiblioControl;
 
-import java.util.ArrayList;
+/**
+ * Clase Usuario
+ * Contiene los atributos de un usuario y sus metodos get y set
+ */
 public abstract class Usuario {
     private String DNI;
     private String nombre;
     private String password;
     private String pistaPassword;
-
     /**
      * Constructor de la clase Usuario
      * @param dni DNI del usuario
@@ -38,22 +40,6 @@ public abstract class Usuario {
     }
 
     /**
-     * Metodo getNombre
-     * @return devuelve el nombre del usuario
-     */
-    public String getNombre() {
-        return nombre;
-    }
-
-    /**
-     * Metodo setNombre
-     * @param nombre Nombre del usuario
-     */
-    public void setNombre(String nombre) {
-        this.nombre= nombre;
-    }
-
-    /**
      * Metodo setPassword
      * @param password Contraseña del usuario
      */
@@ -61,21 +47,6 @@ public abstract class Usuario {
         this.password = password;
     }
 
-    /**
-     * Metodo getPassword
-     * @return devuelve la contraseña del usuario
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * Metodo setPistaPassword
-     * @param pistaPassword Pista de la contraseña del usuario
-     */
-    public void setPistaPassword(String pistaPassword) {
-        this.pistaPassword = pistaPassword;
-    }
 
     /**
      * Metodo getPistaPassword
@@ -111,6 +82,4 @@ public abstract class Usuario {
         char letra = DNI.charAt(8);
         return Character.isLetter(letra); // Devuelve true si el último carácter es una letra.
     }
-
-    public abstract void Menu(ArrayList<UsuarioBiblioteca> Usuarios, ArrayList<Libro> Libros);
 }

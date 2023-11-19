@@ -1,26 +1,32 @@
 package BiblioControl;
 
-import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
-public class InterfazAdmin extends JFrame {
-    public InterfazAdmin(ArrayList<UsuarioBiblioteca> Usuarios, ArrayList<Libro> Libros) {
+/**
+ * Clase que representa la interfaz gráfica para la administración
+ */
+public class InterfazAdmin extends JFrame implements ActionListener {
+    private JButton btnAddUsuario, btnDelUsuario, btnAddLibro, btnDelLibro, btnGestionarSonido, btnGestionarPeticiones, btnSalir;
+
+    /**
+     * Constructor de la clase InterfazAdmin que muestra la interfaz gráfica para la administración
+     */
+    public InterfazAdmin() {
         setTitle("Administración - BiblioControl");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(320, 240);
-        setLocationRelativeTo(null);
 
-        // Creamos los botones para las acciones de admin
-        JButton btnAddUsuario = new JButton("Añadir usuario");
-        JButton btnDelUsuario = new JButton("Eliminar usuario");
-        JButton btnAddLibro = new JButton("Añadir libro");
-        JButton btnDelLibro = new JButton("Eliminar libro");
-        JButton btnGestionarSonido = new JButton("Gestionar sonido");
-        JButton btnGestionarPeticiones = new JButton("Gestionar peticiones");
-        JButton btnSalir = new JButton("Salir");
+        // Inicialización y configuración de los botones
+        btnAddUsuario = new JButton("Añadir usuario");
+        btnDelUsuario = new JButton("Eliminar usuario");
+        btnAddLibro = new JButton("Añadir libro");
+        btnDelLibro = new JButton("Eliminar libro");
+        btnGestionarSonido = new JButton("Gestionar sonido");
+        btnGestionarPeticiones = new JButton("Gestionar peticiones");
+        btnSalir = new JButton("Salir");
 
-        // Alineamos los botones en el centro
         btnAddUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnDelUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnAddLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -29,11 +35,18 @@ public class InterfazAdmin extends JFrame {
         btnGestionarPeticiones.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Crear un panel con BoxLayout vertical
+        btnAddUsuario.addActionListener(this);
+        btnDelUsuario.addActionListener(this);
+        btnAddLibro.addActionListener(this);
+        btnDelLibro.addActionListener(this);
+        btnGestionarSonido.addActionListener(this);
+        btnGestionarPeticiones.addActionListener(this);
+        btnSalir.addActionListener(this);
+
+        // Creación del panel y añadir los botones a él
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        // Añadir los botones al panel
         panel.add(btnAddUsuario);
         panel.add(btnDelUsuario);
         panel.add(btnAddLibro);
@@ -42,12 +55,32 @@ public class InterfazAdmin extends JFrame {
         panel.add(btnGestionarPeticiones);
         panel.add(btnSalir);
 
+        // Añadir el panel al JFrame
         getContentPane().add(panel);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    // Por ahora lo probamos aqui
-    public static void main(String[] args) {
-        new InterfazAdmin(new ArrayList<UsuarioBiblioteca>(), new ArrayList<Libro>());
+    /**
+     * Método que procesa los eventos de la interfaz gráfica
+     * @param e el evento
+     */
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnAddUsuario) {
+            new AddUsuarioGUI(Main.getUsuarios()); // Abre la ventana para añadir un usuario
+        } else if (e.getSource() == btnDelUsuario) {
+            new EliminarUsuarioGUI(Main.getUsuarios()); // Abre la ventana para eliminar un usuario
+        } else if (e.getSource() == btnAddLibro) {
+            new AddLibroGUI(Main.getLibros()); // Abre la ventana para añadir un libro
+        } else if (e.getSource() == btnDelLibro) {
+            new EliminarLibroGUI(Main.getLibros()); // Abre la ventana para eliminar un libro
+        } else if (e.getSource() == btnGestionarSonido) {
+            new GestionarSonidoGUI(); // Abre la ventana para gestionar el sonido
+        } else if (e.getSource() == btnGestionarPeticiones) {
+            new GestionarPeticionesGUI(Main.getLibros(), Admin.getInstance().getPeticiones()); // Abre la ventana para gestionar peticiones
+        } else if (e.getSource() == btnSalir) {
+            dispose(); // Cierra la ventana actual
+            new InterfazBiblioControl(); // Abre la interfaz de inicio de sesión
+        }
     }
 }

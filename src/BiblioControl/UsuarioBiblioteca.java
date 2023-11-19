@@ -1,13 +1,12 @@
 package BiblioControl;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Clase Usuario
  * Contiene los atributos de un usuario y sus metodos get y set ademas del menu de usuario
  */
-public class UsuarioBiblioteca extends Usuario{
+public class UsuarioBiblioteca extends Usuario implements Menus{
     private ArrayList<Libro> librosReservados = new ArrayList<>();
 
     /**
@@ -23,158 +22,111 @@ public class UsuarioBiblioteca extends Usuario{
 
 
     /**
-     * Metodo reservarLibro
-     * @param libro Libro que se va a reservar
-     * @param biblioteca ArrayList de libros
+     * Método para reservar un libro por su ISBN.
+     * @param isbn ISBN del libro a reservar.
+     * @param biblioteca Lista de libros en la biblioteca.
+     * @return Un mensaje indicando el resultado de la reserva.
      */
-    public void reservarLibro(Libro libro, ArrayList<Libro> biblioteca) {
-        if (libro.getDisponible()) {
-            librosReservados.add(libro);
-            biblioteca.remove(libro);
-            libro.setDisponible(false);
-            System.out.println("Has reservado el libro: " + libro.getTitulo());
-        } else {
-            System.out.println("El libro no está disponible.");
+    public String reservarLibro(String isbn, ArrayList<Libro> biblioteca) {
+        for (Libro libro : biblioteca) {
+            if (libro.getISBN().equals(isbn) && libro.getDisponible()) {
+                librosReservados.add(libro);
+                biblioteca.remove(libro);
+                libro.setDisponible(false);
+                return "Has reservado el libro: " + libro.getTitulo();
+            }
         }
+        return "El libro no está disponible o no existe.";
     }
 
     /**
-     * Metodo devolverLibro
-     * @param libro Libro que se va a devolver
-     * @param biblioteca ArrayList de libros
+     * Método para devolver un libro por ISBN.
+     * @param isbn ISBN del libro a devolver.
+     * @param biblioteca Biblioteca de la que se devuelve el libro.
+     * @return Mensaje con el resultado de la operación.
      */
-    public void devolverLibro(Libro libro, ArrayList<Libro> biblioteca) {
-        if (librosReservados.contains(libro)) {
-            librosReservados.remove(libro);
-            biblioteca.add(libro);
-            libro.setDisponible(true);
-            System.out.println("Has devuelto el libro: " + libro.getTitulo());
-        } else {
-            System.out.println("No has reservado este libro.");
+    public String devolverLibro(String isbn, ArrayList<Libro> biblioteca) {
+        for (Libro libro : librosReservados) {
+            if (libro.getISBN().equals(isbn)) {
+                librosReservados.remove(libro);
+                biblioteca.add(libro);
+                libro.setDisponible(true);
+                return "Has devuelto el libro: " + libro.getTitulo();
+            }
         }
+        return "No has reservado este libro o no existe.";
     }
 
     /**
-     * Metodo solicitarLibro
-     * Añade una peticion de libro a la lista de peticiones
-     * @param ISBN ISBN del libro
-     * @param titulo Titulo del libro
-     * @param autor Autor del libro
-     * @param biblioteca ArrayList de libros
+     * Método para solicitar un libro por su ISBN, título y autor.
+     * @param isbn ISBN del libro a solicitar.
+     * @param titulo Título del libro a solicitar.
+     * @param autor Autor del libro a solicitar.
+     * @param biblioteca Lista de libros en la biblioteca.
+     * @return Un mensaje indicando el resultado de la solicitud.
      */
-    public void solicitarLibro(String ISBN, String titulo, String autor, ArrayList<Libro> biblioteca) {
+    public String solicitarLibro(String isbn, String titulo, String autor, ArrayList<Libro> biblioteca) {
         // Comprobar si el libro existe y está disponible en la biblioteca
         for (Libro libro : biblioteca) {
-            if (libro.getISBN().equals(ISBN)) {
+            if (libro.getISBN().equals(isbn)) {
                 // Si el libro está disponible, no permitir la solicitud
                 if (libro.getDisponible()) {
-                    System.out.println("El libro " + libro.getTitulo() + " ya está disponible y no necesita ser solicitado.");
-                    return;
+                    return "El libro " + libro.getTitulo() + " ya está disponible y no necesita ser solicitado.";
                 }
             }
         }
-        Libro libroSolicitado = new Libro(ISBN, titulo, autor);
-        Admin.addPeticion(libroSolicitado);
+        // El libro no existe en la biblioteca o no está disponible, se puede solicitar
+        Libro libroSolicitado = new Libro(isbn, titulo, autor);
+        Admin.getInstance().addPeticion(libroSolicitado);
+        return "Has solicitado el libro: " + titulo;
     }
 
     /**
-     * Metodo MenuUsuario
-     * Muestra el menu de usuario y sus opciones
+     * Método que cambia la contraseña del usuario actual
+     * @param passwordActual La contraseña actual
+     * @param passwordNueva La nueva contraseña
+     */
+    public void cambiarPassword(String passwordActual, String passwordNueva) throws PasswordIncorrectaException {
+        if (!ComprobarPassword(passwordActual)) {
+            throw new PasswordIncorrectaException("Contraseña actual incorrecta");
+        }
+        setPassword(passwordNueva);
+        System.out.println("Contraseña cambiada correctamente");
+    }
+
+    /**
+     * Excepción propia para cuando la contraseña actual es incorrecta
+     */
+    public class PasswordIncorrectaException extends Exception {
+        public PasswordIncorrectaException(String mensaje) {
+            super(mensaje);
+        }
+    }
+
+    /**
+     * Método que busca un usuario por su DNI
+     * @param DNI DNI del usuario
+     * @param Usuarios ArrayList de usuarios
+     * @return El usuario encontrado o null si no se encuentra
+     */
+    public static UsuarioBiblioteca buscarUsuarioPorDNI(String DNI, ArrayList<UsuarioBiblioteca> Usuarios) {
+        if (Usuarios == null) {
+            return null;
+        }
+        for (UsuarioBiblioteca usuario : Usuarios) {
+            if (usuario.getDNI().equals(DNI)) {
+                return usuario;
+            }
+        }
+        return null;
+    }
+    /**
+     * Metodo Menu
+     * Inicia una interfaz grafica para el usuario
      * @param Usuarios ArrayList de usuarios
      * @param Libros ArrayList de libros
      */
-     public void Menu(ArrayList<UsuarioBiblioteca> Usuarios, ArrayList<Libro> Libros) {
-        boolean salir = false;
-        Scanner teclado = new Scanner(System.in);
-        int opcion;
-
-        while (!salir) {
-            System.out.println("\nMENU USUARIO");
-            System.out.println("1. Reservar libro");
-            System.out.println("2. Solicitar libro");
-            System.out.println("3. Devolver libro");
-            System.out.println("4. Cambiar contraseña");
-            System.out.println("5. Salir");
-            System.out.print("Escribe una de las opciones: ");
-            opcion = teclado.nextInt();
-
-            switch (opcion) {
-                case 1:
-                    // Reservar libro
-                    System.out.println("Introduce el ISBN del libro que deseas reservar: ");
-                    String ISBNReserva = teclado.next();
-
-                    Libro libroReserva = null;
-                    for (Libro libro : Libros) {
-                        if (libro.getISBN().equals(ISBNReserva) && libro.getDisponible()) {
-                            libroReserva = libro;
-                            break;
-                        }
-                    }
-                    if (libroReserva != null) {
-                        reservarLibro(libroReserva, Libros);
-                    } else {
-                        System.out.println("El libro no está disponible o no existe.");
-                    }
-                    break;
-                case 2:
-                    // Solicitar libro
-                    System.out.println("Introduce el ISBN del libro que deseas solicitar:");
-                    String ISBN = teclado.next();
-                    teclado.nextLine();
-                    System.out.println("Introduce el título del libro:");
-                    String titulo = teclado.nextLine();
-                    System.out.println("Introduce el autor del libro:");
-                    String autor = teclado.nextLine();
-                    this.solicitarLibro(ISBN, titulo, autor, Libros);
-                    break;
-                case 3:
-                    // Devolver libro
-                    System.out.println("Introduce el ISBN del libro que deseas devolver: ");
-                    String ISBNDevolucion = teclado.next();
-
-                    Libro libroDevolucion = null;
-                    for (Libro libro : librosReservados) {
-                        if (libro.getISBN().equals(ISBNDevolucion)) {
-                            libroDevolucion = libro;
-                            break;
-                        }
-                    }
-                    if (libroDevolucion != null) {
-                        devolverLibro(libroDevolucion, Libros);
-                    } else {
-                        System.out.println("No has reservado este libro.");
-                    }
-                    break;
-                case 4:
-                    System.out.print("Introduce tu contraseña actual: ");
-                    String passwordActual = teclado.next();
-                    if (ComprobarPassword(passwordActual)) {
-                        System.out.print("Introduce tu nueva contraseña: ");
-                        String passwordNueva = teclado.next();
-                        setPassword(passwordNueva);
-                        System.out.println("Contraseña cambiada correctamente");
-                    } else {
-                        System.out.println("Contraseña incorrecta");
-                    }
-
-                    System.out.println("Desea cambiar la pista de contraseña? (S/N)");
-                    String respuesta = teclado.next();
-                    if (respuesta.equals("S")) {
-                        System.out.print("Introduce tu nueva pista de contraseña: ");
-                        String pistaPasswordNueva = teclado.next();
-                        setPistaPassword(pistaPasswordNueva);
-                        System.out.println("Pista de contraseña cambiada correctamente");
-                    }
-                    break;
-                case 5:
-                    System.out.println("Cerrando sesión...");
-                    salir = true; // Salir del menú de usuario
-                    break;
-                default:
-                    System.out.println("Opción no válida");
-                    break;
-            }
-        }
+    public void Menu(ArrayList<UsuarioBiblioteca> Usuarios, ArrayList<Libro> Libros) {
+        new InterfazUsuario(this); // Abre la interfaz gráfica del usuario
     }
 }

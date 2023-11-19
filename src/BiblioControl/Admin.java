@@ -1,7 +1,8 @@
 package BiblioControl;
 
+import java.awt.*;
 import java.util.ArrayList;
-import java.util.Scanner;
+import javax.swing.*;
 
 // Bibliotecas para el sonido
 import javax.sound.sampled.*;
@@ -10,8 +11,8 @@ import javax.sound.sampled.*;
  * Clase Admin que hereda de Usuario.
  * Contiene los metodos para añadir y eliminar usuarios y libros, y para gestionar el sonido de la sala y las peticiones.
  */
-    public class Admin extends Usuario {
-
+    public class Admin extends Usuario implements Menus {
+    private static Admin instance;
     private static ArrayList<Libro> peticiones = new ArrayList<>();
     /**
      * Constructor
@@ -23,97 +24,95 @@ import javax.sound.sampled.*;
     }
 
     /**
-     * Metodo para añadir usuarios al ArrayList Usuarios
-     * Pide los datos del usuario y crea un nuevo usuario
-     * @param Usuarios ArrayList de usuarios
+     * Metodo para obtener la instancia de Admin (Singleton)
+     * @return devuelve la instancia de Admin
      */
-    public static void AddUsuario(ArrayList<UsuarioBiblioteca> Usuarios){
-        Scanner teclado = new Scanner(System.in);
-
-        System.out.println("Introduce tu DNI");
-        String DNI = teclado.nextLine();
-
-        // Utilizar el método validarDNI para comprobar la validez del DNI introducido.
-        while (!UsuarioBiblioteca.validarDNI(DNI)) {
-            System.out.println("El DNI introducido no es válido. Por favor, vuelve a introducir tu DNI.");
-            DNI = teclado.nextLine();
+    public static Admin getInstance() {
+        if (instance == null) {
+            instance = new Admin("adminDNI", "adminPassword");
         }
-
-        System.out.println("Introduce tu nombre");
-        String nombre = teclado.nextLine();
-        System.out.println("Introduce tu contraseña");
-        String password = teclado.nextLine();
-        System.out.println("Introduce una pista para tu contraseña");
-        String pistaPassword = teclado.nextLine();
-
-        // Crear un nuevo usuario y agregarlo a la lista de Usuarios
+        return instance;
+    }
+    /**
+     * Metodo para añadir un usuario
+     * @param DNI DNI del usuario
+     * @param nombre Nombre del usuario
+     * @param password Contraseña del usuario
+     * @param pistaPassword Pista de la contraseña del usuario
+     * @param Usuarios ArrayList de usuarios de la biblioteca
+     */
+    public void addUsuario(String DNI, String nombre, String password, String pistaPassword, ArrayList<UsuarioBiblioteca> Usuarios) throws DNIInvalidoException, UsuarioYaExisteException {
+        // Validar el DNI
+        if (!UsuarioBiblioteca.validarDNI(DNI)) {
+            throw new DNIInvalidoException("El DNI introducido no es válido.");
+        }
+        // Comprobar si el usuario ya existe
+        for (UsuarioBiblioteca usuario : Usuarios) {
+            if (usuario.getDNI().equals(DNI)) {
+                throw new UsuarioYaExisteException("Un usuario con este DNI ya existe.");
+            }
+        }
+        // Crear un nuevo usuario y agregarlo a la lista
         UsuarioBiblioteca nuevoUsuario = new UsuarioBiblioteca(DNI, nombre, password, pistaPassword);
         Usuarios.add(nuevoUsuario);
-        System.out.println("Usuario creado.");
     }
 
     /**
-     * Metodo para eliminar usuarios del ArrayList Usuarios
-     * Busca el usuario por su DNI y lo elimina
-     * @param DNI DNI del usuario
-     * @param Usuarios ArrayList de usuarios
+     * Método para eliminar un usuario.
+     * @param Usuarios ArrayList de usuarios de la biblioteca.
+     * @param DNI DNI del usuario a eliminar.
+     * @param password Contraseña del administrador.
+     * @return Mensaje indicando el resultado de la operación.
      */
-    public static void DelUsuario(String DNI, ArrayList<UsuarioBiblioteca> Usuarios){
-        for(int i = 0; i < Usuarios.size(); i++){
-            if(Usuarios.get(i).getDNI().equals(DNI)){
-                Usuarios.remove(i);
+    public String delUsuario(ArrayList<UsuarioBiblioteca> Usuarios, String DNI, String password) {
+        if (this.ComprobarPassword(password)) {
+            boolean usuarioEncontrado = false;
+            for (int i = 0; i < Usuarios.size(); i++) {
+                if (Usuarios.get(i).getDNI().equals(DNI)) {
+                    Usuarios.remove(i);
+                    usuarioEncontrado = true;
+                    break;
+                }
             }
+            if (usuarioEncontrado) {
+                return "Usuario eliminado con éxito";
+            } else {
+                return "Usuario no encontrado";
+            }
+        } else {
+            return "Contraseña del administrador incorrecta";
         }
     }
-
     /**
-     * Metodo para añadir libros al ArrayList Libros
-     * Pide los datos del libro y crea un nuevo libro y lo añade al ArrayList
-     * @param ISBN   ISBN del libro
-     * @param titulo Titulo del libro
-     * @param autor  Autor del libro
-     * @param Libros ArrayList de libros
+     * Método para eliminar un libro del ArrayList de libros.
+     * @param isbn ISBN del libro a eliminar.
+     * @param libros ArrayList de libros de la biblioteca.
+     * @return Mensaje indicando el resultado de la operación.
      */
-    public static void addLibros(String ISBN, String titulo, String autor, ArrayList<Libro> Libros){
-        Libro libro = new Libro(ISBN, titulo, autor);
-        libro.setISBN(ISBN);
-        libro.setTitulo(titulo);
-        libro.setAutor(autor);
-        Libros.add(libro);
-    }
-
-    /**
-     * Metodo para eliminar libros del ArrayList Libros
-     * Busca el libro por su ISBN y lo elimina con el metodo remove de ArrayList
-     * @param ISBN ISBN del libro
-     * @param Libros ArrayList de libros
-     */
-    public static void delLibros(String ISBN, ArrayList<Libro> Libros){
-        for(int i = 0; i < Libros.size(); i++){
-            if(Libros.get(i).getISBN().equals(ISBN)){
-                Libros.remove(i);
+    public String eliminarLibro(String isbn, ArrayList<Libro> libros) {
+        for (int i = 0; i < libros.size(); i++) {
+            if (libros.get(i).getISBN().equals(isbn)) {
+                libros.remove(i);
+                return "Libro eliminado con éxito";
             }
         }
+        return "No se encontró un libro con ese ISBN";
     }
 
     /**
      * Metodo autenticarAdmin
      * Comprueba si el DNI y la contraseña introducidos son correctos
-     * @param DNI Nombre del administrador
      * @param password Contraseña del administrador
      * @return devuelve true si el usuario y la contraseña son correctos, false si no lo son
      */
-    public static boolean autenticarAdmin(Admin admin, String password) {
-        if (admin.getDNI().equals("admin") && admin.ComprobarPassword(password)) {
-            return true;
-        }
-        return false;
+    public boolean autenticarAdmin(String password) {
+        return this.ComprobarPassword(password);
     }
 
     /**
      * Excepcion para cuando no hay peticiones
      */
-    public static class SinPeticionesException extends Exception {
+    public class SinPeticionesException extends Exception {
         public SinPeticionesException(String mensaje) {
             super(mensaje);
         }
@@ -123,111 +122,95 @@ import javax.sound.sampled.*;
      * Metodo para añadir peticiones de libros
      * @param libro Libro que se va a añadir a las peticiones
      */
-    public static void addPeticion(Libro libro) {
+    public void addPeticion(Libro libro) {
         peticiones.add(libro);
-        System.out.println("Petición añadida: " + libro.getTitulo() + " (ISBN: " + libro.getISBN() + ")");
     }
 
     /**
-     * Metodo para mostrar las peticiones
-     * Recorre el ArrayList peticiones y muestra las peticiones
+     * Metodo para obtener las peticiones
+     * @return devuelve las peticiones
      */
-    public static void mostrarPeticiones() throws SinPeticionesException {
-        if (peticiones.isEmpty()) {
-            throw new SinPeticionesException("No hay peticiones para mostrar.");
-        }
-        for (int i = 0; i < peticiones.size(); i++) {
-            Libro libro = peticiones.get(i);
-            System.out.println((i + 1) + ". " + libro.getTitulo() + " (ISBN: " + libro.getISBN() + ")");
-        }
+    public ArrayList<Libro> getPeticiones() {
+        return peticiones;
     }
 
     /**
-     * Metodo para eliminar peticiones
+     * Método para añadir un libro desde las peticiones a la lista de libros.
+     * @param peticiones ArrayList de peticiones.
+     * @param libros ArrayList de libros.
+     * @param selectedIndex Índice del libro seleccionado en peticiones.
      */
-    private static int obtenerIndicePeticion() {
-        Scanner teclado = new Scanner(System.in);
-        try {
-            mostrarPeticiones();
-            System.out.println("Escribe el número de la petición que quieres gestionar:");
-            return teclado.nextInt() - 1;
-        } catch (SinPeticionesException e) {
-            System.out.println(e.getMessage());
-            return -1; // Indica que no hay peticiones
+    public void addLibroDePeticiones(ArrayList<Libro> peticiones, ArrayList<Libro> libros, int selectedIndex) {
+        if (selectedIndex != -1) {
+            Libro libroSeleccionado = peticiones.get(selectedIndex);
+            libros.add(libroSeleccionado);
+            peticiones.remove(selectedIndex);
         }
     }
 
     /**
-     * Metodo para eliminar peticiones
-     * @param index Indice de la petición que se va a eliminar
+     * Método para eliminar una petición.
+     * @param peticiones ArrayList de peticiones.
+     * @param index Índice de la petición seleccionada.
      */
-    public static void eliminarPeticion(int index) {
-        if (index >= 0 && index < peticiones.size()) {
+    public void eliminarPeticion(ArrayList<Libro> peticiones, int index) {
+        if (index != -1) {
             peticiones.remove(index);
-            System.out.println("Petición eliminada.");
-        } else {
-            System.out.println("Índice de petición no válido.");
-        }
-    }
-
-    /**
-     * Metodo para obtener el indice de la peticion
-     * @param indicePeticion Indice de la peticion
-     * @param Libros ArrayList de libros
-     */
-    public static void gestionarAddLibro(int indicePeticion, ArrayList<Libro> Libros) {
-        if (indicePeticion >= 0 && indicePeticion < peticiones.size()) {
-            Libro libro = peticiones.get(indicePeticion);
-            addLibros(libro.getISBN(), libro.getTitulo(), libro.getAutor(), Libros);
-            eliminarPeticion(indicePeticion);
-        } else {
-            System.out.println("Índice de petición no válido.");
         }
     }
 
     /**
      * Metodo para medir el nivel de sonido de la sala
      */
-    public static void medirNivelDeSonido() {
-        try {
+    public void medirNivelDeSonido(GestionarSonidoGUI gui) {
+        new Thread(() -> {
+            try {
+                int segundos = Integer.parseInt(gui.txtSegundos.getText());
+                AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
+                DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
-            AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
-            if (!AudioSystem.isLineSupported(info)) {
-                System.out.println("Micrófono no soportado");
-                return;
+                if (!AudioSystem.isLineSupported(info)) {
+                    SwingUtilities.invokeLater(() -> {
+                        JOptionPane.showMessageDialog(gui, "Micrófono no soportado", "Error", JOptionPane.ERROR_MESSAGE);
+                    });
+                    return;
+                }
+
+                TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
+                line.open(format);
+                line.start();
+
+                byte[] buffer = new byte[1024];
+                long endTime = System.currentTimeMillis() + segundos * 1000;
+                double umbral = 40.0; // Umbral de sonido en dB
+
+                while (System.currentTimeMillis() < endTime) {
+                    int bytesRead = line.read(buffer, 0, buffer.length);
+                    double level = calculateLevel(buffer, bytesRead);
+                    SwingUtilities.invokeLater(() -> {
+                        if (level > umbral) {
+                            gui.lblNivelSonido.setForeground(Color.RED);
+                            gui.lblNivelSonido.setText("SILENCIO, POR FAVOR - " + String.format("%.2f dB", level));
+                        } else {
+                            gui.lblNivelSonido.setForeground(Color.BLACK);
+                            gui.lblNivelSonido.setText("Nivel de Sonido: " + String.format("%.2f dB", level));
+                        }
+                    });
+                }
+
+                line.stop();
+                line.close();
+
+            } catch (NumberFormatException ex) {
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(gui, "Por favor, ingresa un número válido de segundos.", "Error de Entrada", JOptionPane.ERROR_MESSAGE);
+                });
+            } catch (LineUnavailableException ex) {
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(gui, "Línea de audio no disponible.", "Error", JOptionPane.ERROR_MESSAGE);
+                });
             }
-            // Abrir el micrófono y comenzar a grabar
-            TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
-            line.open(format);
-            line.start();
-
-            // Solicitar segundos de medición
-            System.out.print("Durante cuántos segundos quieres medir el nivel de sonido? ");
-            Scanner teclado = new Scanner(System.in);
-            int segundos = teclado.nextInt();
-            int milisegundos = segundos * 1000;
-
-            // Leer datos del micrófono y calcular el nivel de sonido
-            byte[] buffer = new byte[1024];
-            // Se utiliza System.currentTimeMillis() para obtener el tiempo actual en milisegundos y se le suma la duración de la medición
-            long endTime = System.currentTimeMillis() + milisegundos;
-            System.out.println("Iniciando medición de sonido por " + segundos + " segundos...");
-
-            // Mientras el tiempo actual sea menor que el tiempo final, leer datos del micrófono y calcular el nivel de sonido
-            while (System.currentTimeMillis() < endTime) {
-                int bytesRead = line.read(buffer, 0, buffer.length);
-                // Calcular el nivel de sonido en decibelios
-                double level = calculateLevel(buffer, bytesRead);
-                System.out.print("\rNivel de sonido (dB): " + level);
-            }
-            line.stop();
-            line.close();
-            System.out.println("\nMedición de sonido completada.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }).start();
     }
 
     /**
@@ -250,87 +233,45 @@ import javax.sound.sampled.*;
     }
 
     /**
+     * Excepcion para cuando el DNI no es valido
+     */
+    public static class DNIInvalidoException extends Exception {
+        public DNIInvalidoException(String mensaje) {
+            super(mensaje);
+        }
+    }
+
+    /**
+     * Excepcion para cuando el usuario ya existe
+     */
+    public static class UsuarioYaExisteException extends Exception {
+        public UsuarioYaExisteException(String mensaje) {
+            super(mensaje);
+        }
+    }
+
+    /**
+     * Metodo para comprobar si un libro existe
+     * @param isbn ISBN del libro
+     * @param libros ArrayList de libros de la biblioteca
+     * @return devuelve true si el libro existe, false si no existe
+     */
+    public boolean libroExiste(String isbn, ArrayList<Libro> libros) {
+        for (Libro libro : libros) {
+            if (libro.getISBN().equals(isbn)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Metodo que muestra el menu de administrador
      * Desde aqui se pueden añadir y eliminar usuarios y libros, gestionar el sonido de la sala y las peticiones
      * @param Usuarios ArrayList de usuarios de la biblioteca
      * @param Libros ArrayList de libros de la biblioteca
      */
     public void Menu(ArrayList<UsuarioBiblioteca> Usuarios, ArrayList<Libro> Libros){
-        Admin admin = new Admin("admin", "adminpassword");
-        boolean salir = false;
-        Scanner teclado = new Scanner(System.in);
-        int opcion;
-
-        while (!salir) {
-            System.out.println("\nMENU ADMIN");
-            System.out.println("1. Añadir usuario");
-            System.out.println("2. Eliminar usuario");
-            System.out.println("3. Añadir libro");
-            System.out.println("4. Eliminar libro");
-            System.out.println("5. Sonido sala");
-            System.out.println("6. Gestionar peticiones");
-            System.out.println("7. Salir");
-
-            opcion = teclado.nextInt();
-            teclado.nextLine();
-
-            switch (opcion) {
-                case 1:
-                    AddUsuario(Usuarios);
-                    break;
-                case 2:
-                    System.out.println("Introduce el DNI del usuario que quieres eliminar");
-                    String DNI = teclado.next();
-                    System.out.println("Introduce la contraseña del administrador");
-                    String password = teclado.next();
-                    if(admin.ComprobarPassword(password)){
-                        DelUsuario(DNI, Usuarios);
-                        System.out.println("Usuario eliminado");
-                    }else{
-                        System.out.println("Contraseña del administrador incorrecta");
-                    }
-                    break;
-                case 3:
-                    System.out.println("Introduce el ISBN del libro");
-                    String ISBN = teclado.nextLine();
-                    System.out.println("Introduce el titulo del libro");
-                    String titulo = teclado.nextLine();
-                    System.out.println("Introduce el autor del libro");
-                    String autor = teclado.nextLine();
-                    addLibros(ISBN, titulo, autor, Libros);
-                    break;
-                case 4:
-                    System.out.print("Introduce el ISBN del libro que quieres eliminar: ");
-                    ISBN = teclado.next();
-                    delLibros(ISBN, Libros);
-                    break;
-                case 5:
-                    medirNivelDeSonido();
-                    break;
-                case 6:
-                    int indicePeticion = obtenerIndicePeticion();
-                    // Verifica si hay peticiones disponibles
-                    if (indicePeticion == -1) {
-                        break;
-                    }
-                    System.out.println("¿Quieres añadir el libro a la biblioteca o eliminar la petición? (añadir/eliminar):");
-                    String accion = teclado.next();
-
-                    if ("añadir".equalsIgnoreCase(accion)) {
-                        gestionarAddLibro(indicePeticion, Libros);
-                    } else if ("eliminar".equalsIgnoreCase(accion)) {
-                        eliminarPeticion(indicePeticion);
-                    } else {
-                        System.out.println("Acción no reconocida.");
-                    }
-                    break;
-                case 7:
-                    System.out.println("Cerrando sesión...");
-                    salir = true;
-                    break;
-                default:
-                    System.out.println("Solo números entre 1 y 7");
-            }
-        }
+        new InterfazAdmin();
     }
 }
