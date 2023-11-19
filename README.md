@@ -91,3 +91,17 @@ Medición de Sonido
 <p align="center">
 <img width="490" alt="Captura de pantalla 2023-11-10 a las 11 48 33" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3b341846-9258-41b4-9aef-f4e6e31fe1ae">
 </p>
+
+### Práctica 4
+Hemos creado las interfaces para cada método
+
+Funciones de administrador
+<p align="center">
+<img width="462" alt="Captura de pantalla 2023-11-19 a las 16 01 37" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3f1ddae5-3e1f-4c6e-9338-5349349fec94"><img width="512" alt="Captura de pantalla 2023-11-19 a las 15 59 19" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3c098e07-a268-40ce-b276-60f4710d2328"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 59" src="https://github.com/ac-14/TrabajoJava/assets/119895282/65241b66-2860-4d5b-a4cc-98d5e0ad4572"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 53" src="https://github.com/ac-14/TrabajoJava/assets/119895282/94a5d375-3373-4e94-86c5-8492d11c0420"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 44" src="https://github.com/ac-14/TrabajoJava/assets/119895282/cf7ace64-f05a-4f39-8a5f-beff2fdd4b73"><img width="462" alt="Captura de pantalla 2023-11-19 a las 15 58 29" src="https://github.com/ac-14/TrabajoJava/assets/119895282/9729c9ef-87e6-43f3-84db-971e5ffeee45">
+</p>
+
+Funciones de Usuario
+<p align="center">
+<img width="412" alt="Captura de pantalla 2023-11-19 a las 16 02 38" src="https://github.com/ac-14/TrabajoJava/assets/119895282/16ba3010-733b-4436-a397-ad69622e05c9"><img width="412" alt="Captura de pantalla 2023-11-19 a las 16 02 27" src="https://github.com/ac-14/TrabajoJava/assets/119895282/639983b1-7542-48a5-bae9-f5d7f56dd0fb"><img width="512" alt="Captura de pantalla 2023-11-19 a las 16 02 23" src="https://github.com/ac-14/TrabajoJava/assets/119895282/7005bb8a-95f0-4ac6-bfe9-bee223a3747e"><img width="462" alt="Captura de pantalla 2023-11-19 a las 16 02 11" src="https://github.com/ac-14/TrabajoJava/assets/119895282/1d3a2e85-09c9-4c98-b125-d22c22cffc73">
+</p>
+
