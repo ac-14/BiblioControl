@@ -15,11 +15,11 @@ El administrador tiene acceso a un conjunto de herramientas para gestionar la bi
 •	Gestión de Usuarios: Puede bloquear el acceso de ciertos usuarios por razones específicas, cambiar contraseñas, etc.<br />
 •	Gestión de Peticiones: Visualiza las solicitudes de libros de los usuarios, permitiendo la compra y adición posterior de los mismos.<br />
 <p align="center">
-<img width="215" alt="Menu_Administrador" src="https://github.com/ac-14/TrabajoJava/assets/119895282/399a9441-6d0f-4387-a260-e001fa61ac0b">
+<img width="215" alt="Menu_Administrador" src="https://github.com/ac-14/TrabajoJava/assets/119895282/014aefd7-13d8-4e73-9222-ca43875786d6">
 </p>
 
 <p align="center">
-<img width="246" alt="Busqueda_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/b3696718-cc96-4288-9d97-4bb41894b07a"><img width="197" alt="Resultado_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/526ca044-9c23-497a-a1d2-d787259a670b">
+<img width="246" alt="Busqueda_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/7cf253fb-96a8-47d7-bb82-f70fec184be9"><img width="197" alt="Resultado_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/526ca044-9c23-497a-a1d2-d787259a670b">
 </p>
 
 ### Usuario
