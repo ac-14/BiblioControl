@@ -19,7 +19,7 @@ El administrador tiene acceso a un conjunto de herramientas para gestionar la bi
 </p>
 
 <p align="center">
-<img width="246" alt="Busqueda_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/7cf253fb-96a8-47d7-bb82-f70fec184be9"><img width="197" alt="Resultado_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/526ca044-9c23-497a-a1d2-d787259a670b">
+<img width="246" alt="Busqueda_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/7cf253fb-96a8-47d7-bb82-f70fec184be9"><img width="197" alt="Resultado_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/3db13d71-ab07-4f87-8794-23097e2803b9">
 </p>
 
 ### Usuario
@@ -31,20 +31,20 @@ Los usuarios de la biblioteca, al iniciar sesión con su DNI y contraseña, pued
 •	Recomendación de Libro: Si el usuario quiere disfrutar un libro aleatorio, podrá el programa le sugerirá uno.<br />
 
 <p align="center">
-<img width="220" alt="Menu_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/615e38d2-ad12-4ce5-a2af-a87c14206158">
+<img width="220" alt="Menu_Usuario" src="https://github.com/ac-14/TrabajoJava/assets/119895282/5e9563a5-5b8e-430d-917b-226ad9cf6636">
 </p>
 
 ### Conexión con base de datos
 Además, la aplicación se conecta a una base de datos de libros, permitiendo la búsqueda de información a través del ISBN y la descarga automática de datos como el título, la portada y el género.
 
 <p align="center">
-<img width="190" alt="Busqueda_Libro" src="https://github.com/ac-14/TrabajoJava/assets/119895282/7783bc5a-1f60-4faf-b443-2958e1a27119"><img width="153" alt="Resultado_Libro" src="https://github.com/ac-14/TrabajoJava/assets/119895282/dc0fc92a-9750-4718-89bd-0074c5a6051a">
+<img width="190" alt="Busqueda_Libro" src="https://github.com/ac-14/TrabajoJava/assets/119895282/386e0d7c-b6c7-4da6-8769-9a0bca430854"><img width="153" alt="Resultado_Libro" src="https://github.com/ac-14/TrabajoJava/assets/119895282/c5510627-51e3-4615-a5dc-0a956fe925a1">
 </p>
 
 ### Funcionalidad adicional: Control de ruido
 Además, nuestra aplicación incluye una función que, utilizando el micrófono del ordenador la aplicación mide los niveles de ruido. Si los decibelios superan un umbral establecido por el administrador, la aplicación emitirá un mensaje de advertencia en voz alta, solicitando silencio en la biblioteca. Además, el administrador recibirá una notificación si se ha excedido el límite de ruido.
 <p align="center">
-<img width="217" alt="imagen" src="https://github.com/ac-14/TrabajoJava/assets/119895282/21cbb7ff-d482-4826-b84b-0222d2be427b">
+<img width="217" alt="imagen" src="https://github.com/ac-14/TrabajoJava/assets/119895282/65600a45-5800-4690-b2cf-a19cb9fd6c06">
 </p>
 
 ### Diagrama UML
