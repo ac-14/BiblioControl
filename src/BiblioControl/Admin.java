@@ -159,7 +159,7 @@ import javax.sound.sampled.*;
      * @param pistaPassword Pista de la contraseña del usuario
      * @param Usuarios ArrayList de usuarios de la biblioteca
      */
-    public void eliminarUsuario(String DNI, String nombre, String password, String pistaPassword, ArrayList<UsuarioBiblioteca> Usuarios) throws DNIInvalidoException, UsuarioYaExisteException {
+    public void addUsuario(String DNI, String nombre, String password, String pistaPassword, ArrayList<UsuarioBiblioteca> Usuarios) throws DNIInvalidoException, UsuarioYaExisteException {
         // Validar el DNI
         if (!UsuarioBiblioteca.validarDNI(DNI)) {
             throw new DNIInvalidoException("El DNI introducido no es válido.");

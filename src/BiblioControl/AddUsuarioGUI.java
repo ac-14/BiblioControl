@@ -78,7 +78,7 @@ public class AddUsuarioGUI extends JFrame implements ActionListener {
                 }
 
                 // Se crea el usuario y se guarda en el archivo de usuarios
-                Admin.getInstance().eliminarUsuario(DNI, nombre, password, pistaPassword, Usuarios);
+                Admin.getInstance().addUsuario(DNI, nombre, password, pistaPassword, Usuarios);
                 GestorDeArchivos.guardarUsuarios(Usuarios);
                 JOptionPane.showMessageDialog(null, "Usuario creado con éxito");
                 dispose();
