@@ -49,7 +49,7 @@ Además, nuestra aplicación incluye una función que, utilizando el micrófono 
 
 ### Diagrama UML
 <p align="center">
-<img width="882" alt="imagen" src="https://github.com/ac-14/TrabajoJava/assets/119895282/d06822ee-030f-480e-8b05-b16f0491be30">
+<img width="882" alt="imagen" src="https://github.com/ac-14/TrabajoJava/assets/119895282/38b12ac2-4ae7-4b45-9b9b-00f0a9e42a85">
 </p>
 
 ### Práctica 2
@@ -119,4 +119,15 @@ private static Admin instance;
         return instance;
     }
 ```
+### Práctica 5
+Hemos agregado la función de conexión con internet, que era lo último que nos quedaba.
 
+**Conexión a la API de Google Books**
+Para ello hemos utilizado una biblioteca externa, que nos permite poder buscar libros a través del titulo por internet:
+```Java
+import com.google.gson.*;
+```
+Mostramos un ejemplo del funcionamiento:
+<p align="center">
+<img width="499" alt="Captura de pantalla 2023-11-29 a las 19 54 59" src="https://github.com/ac-14/TrabajoJava/assets/119895282/15f0e12c-31c9-42fa-b736-2ed31b4a506d">
+</p>
