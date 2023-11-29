@@ -9,62 +9,92 @@ import java.util.ArrayList;
  * Clase que representa la interfaz gráfica para solicitar un libro
  */
 public class SolicitarLibroGUI extends JFrame implements ActionListener {
-    private JTextField txtISBN, txtTitulo, txtAutor;
-    private JButton btnSolicitar, btnCancelar;
+    private JTextField txtTitulo;
+    private JButton btnBuscar, btnCancelar, btnSolicitar;
+    private JList<String> listResultados;
     private UsuarioBiblioteca usuarioActual;
     private ArrayList<Libro> biblioteca;
+    private ArrayList<Libro> resultadosBusqueda; // Almacenar los resultados de la búsqueda
 
     /**
      * Constructor de la clase SolicitarLibroGUI
-     * @param usuario Usuario que solicita el libro
-     * @param biblioteca ArrayList de libros
+     * @param usuario Usuario actual donde se guardara el libro reservado
+     * @param biblioteca ArrayList de libros de la biblioteca
      */
     public SolicitarLibroGUI(UsuarioBiblioteca usuario, ArrayList<Libro> biblioteca) {
         this.usuarioActual = usuario;
         this.biblioteca = biblioteca;
+        this.resultadosBusqueda = new ArrayList<>();
 
         setTitle("Solicitar Libro");
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(400, 250);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
+        // Panel Superior
+        JPanel panelSuperior = new JPanel(new GridLayout(1, 2, 10, 10));
+        panelSuperior.add(new JLabel("Título:"));
+        txtTitulo = new JTextField();
+        panelSuperior.add(txtTitulo);
+        btnBuscar = new JButton("Buscar");
+        btnBuscar.addActionListener(this);
+        panelSuperior.add(btnBuscar);
+        add(panelSuperior, BorderLayout.NORTH);
 
-        txtISBN = new JTextField(15);
-        txtTitulo = new JTextField(15);
-        txtAutor = new JTextField(15);
+        // Lista de Resultados
+        listResultados = new JList<>();
+        add(new JScrollPane(listResultados), BorderLayout.CENTER);
+
+        // Panel de Botones
+        JPanel panelBotones = new JPanel();
         btnSolicitar = new JButton("Solicitar");
         btnCancelar = new JButton("Cancelar");
-
         btnSolicitar.addActionListener(this);
         btnCancelar.addActionListener(this);
+        panelBotones.add(btnSolicitar);
+        panelBotones.add(btnCancelar);
+        add(panelBotones, BorderLayout.SOUTH);
 
-        panel.add(new JLabel("ISBN: "));
-        panel.add(txtISBN);
-        panel.add(new JLabel("Título: "));
-        panel.add(txtTitulo);
-        panel.add(new JLabel("Autor: "));
-        panel.add(txtAutor);
-        panel.add(btnSolicitar);
-        panel.add(btnCancelar);
-
-        getContentPane().add(panel);
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     /**
-     * Método que procesa los eventos de la interfaz gráfica
+     * Método que procesa los eventos de los botones
      * @param e el evento
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnSolicitar) {
-            // Solicitar el libro y obtener el mensaje
-            String mensaje = usuarioActual.solicitarLibro(txtISBN.getText(), txtTitulo.getText(), txtAutor.getText(), biblioteca);
-            // Mostrar el mensaje en un cuadro de diálogo
-            JOptionPane.showMessageDialog(this, mensaje);
+        if (e.getSource() == btnBuscar) {
+            String titulo = txtTitulo.getText();
+            resultadosBusqueda = BusquedaInternet.buscarPorTitulo(titulo);
+            actualizarListaResultados();
+        } else if (e.getSource() == btnCancelar) {
+            dispose();
+        } else if (e.getSource() == btnSolicitar) {
+            int selectedIndex = listResultados.getSelectedIndex();
+            if (selectedIndex != -1) {
+                Libro libroSeleccionado = resultadosBusqueda.get(selectedIndex);
+                String isbn = libroSeleccionado.getISBN();
+                String titulo = libroSeleccionado.getTitulo();
+                String autor = libroSeleccionado.getAutor();
+
+                String mensaje = usuarioActual.solicitarLibro(isbn, titulo, autor, biblioteca);
+                JOptionPane.showMessageDialog(this, mensaje);
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un libro de la lista");
+            }
         }
-        else if (e.getSource() == btnCancelar) {
-            dispose(); // Cierra la ventana
+    }
+
+    /**
+     * Método que actualiza la lista de resultados de búsqueda
+     */
+    public void actualizarListaResultados() {
+        String[] resultadosArray = new String[resultadosBusqueda.size()];
+        for (int i = 0; i < resultadosBusqueda.size(); i++) {
+            Libro libro = resultadosBusqueda.get(i);
+            resultadosArray[i] = libro.getTitulo() + " - ISBN: " + libro.getISBN();
         }
+        listResultados.setListData(resultadosArray);
     }
 }

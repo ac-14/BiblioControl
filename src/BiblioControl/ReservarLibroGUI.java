@@ -5,49 +5,58 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 
+
 /**
  * Clase que representa la interfaz gráfica para reservar un libro
  */
 public class ReservarLibroGUI extends JFrame implements ActionListener {
-    private JTextField txtISBN;
-    private JButton btnReservar, btnCancelar;
+    private JTextField txtTitulo;
+    private JButton btnBuscar, btnCancelar, btnReservar;
+    private JList<String> listResultados;
     private UsuarioBiblioteca usuarioActual;
     private ArrayList<Libro> biblioteca;
 
     /**
-     * Constructor de la clase ReservarLibroGUI que recibe un usuario y un ArrayList de libros y muestra la interfaz gráfica para reservar un libro
-     * @param usuario el usuario
-     * @param biblioteca el ArrayList de libros
+     * Constructor de la clase ReservarLibroGUI
+     * @param usuario Usuario actual donde se guardara el libro reservado
+     * @param biblioteca ArrayList de libros de la biblioteca
      */
     public ReservarLibroGUI(UsuarioBiblioteca usuario, ArrayList<Libro> biblioteca) {
         this.usuarioActual = usuario;
         this.biblioteca = biblioteca;
 
-        setTitle("Reservar Libro");
-        setSize(350, 120);
+        setTitle("Buscar y Reservar Libro");
+        setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel(new GridLayout(2, 1, 5, 5));
+        JPanel panelSuperior = new JPanel(new GridLayout(1, 3, 10, 10));
+        panelSuperior.add(new JLabel("Título:"));
+        txtTitulo = new JTextField();
+        panelSuperior.add(txtTitulo);
 
-        // Componentes
-        txtISBN = new JTextField(15);
+        btnBuscar = new JButton("Buscar");
+        btnBuscar.addActionListener(this);
+        panelSuperior.add(btnBuscar);
+
+        add(panelSuperior, BorderLayout.NORTH);
+
+        listResultados = new JList<>();
+        add(new JScrollPane(listResultados), BorderLayout.CENTER);
+
+        JPanel panelBotones = new JPanel();
         btnReservar = new JButton("Reservar");
         btnCancelar = new JButton("Cancelar");
 
-        // Eventos
         btnReservar.addActionListener(this);
-        btnCancelar.addActionListener(this); // Cierra la ventana
+        btnCancelar.addActionListener(this);
 
-        // Añadiendo componentes al panel
-        panel.add(new JLabel("ISBN: "));
-        panel.add(txtISBN);
-        panel.add(btnReservar);
-        panel.add(btnCancelar);
+        panelBotones.add(btnReservar);
+        panelBotones.add(btnCancelar);
 
-        add(panel);
+        add(panelBotones, BorderLayout.SOUTH);
 
-        // Hacer visible la ventana
+        setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -56,12 +65,27 @@ public class ReservarLibroGUI extends JFrame implements ActionListener {
      * @param e el evento
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnReservar) {
-            String isbn = txtISBN.getText();
-            String resultadoReserva = usuarioActual.reservarLibro(isbn, biblioteca);
-            JOptionPane.showMessageDialog(this, resultadoReserva);
+        if (e.getSource() == btnBuscar) {
+            // Buscar libros por título dentro de la biblioteca añadiendolos a un ArrayList
+            String titulo = txtTitulo.getText();
+            ArrayList<String> resultados = usuarioActual.buscarLibrosPorTitulo(titulo, biblioteca);
+            // Convertomos el ArrayList a un Array de Strings para poder mostrarlo en la JList
+            String[] resultadosArray = new String[resultados.size()];
+            resultados.toArray(resultadosArray);
+            listResultados.setListData(resultadosArray);
         } else if (e.getSource() == btnCancelar) {
-            dispose(); // Cierra la ventana
+            dispose();
+        } else if (e.getSource() == btnReservar) {
+            String seleccionado = listResultados.getSelectedValue();
+            if (seleccionado != null && !seleccionado.isEmpty()) {
+                // Seguimos la misma lógica que en devolverLibro para obtener el ISBN del libro seleccionado
+                String isbn = seleccionado.split(" - ISBN: ")[1];
+                String resultadoReserva = usuarioActual.reservarLibro(isbn, biblioteca);
+                JOptionPane.showMessageDialog(this, resultadoReserva);
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un libro de la lista.");
+            }
         }
     }
 }

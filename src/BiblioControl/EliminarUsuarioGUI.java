@@ -20,12 +20,15 @@ public class EliminarUsuarioGUI extends JFrame implements ActionListener {
     public EliminarUsuarioGUI(ArrayList<UsuarioBiblioteca> Usuarios) {
         this.Usuarios = Usuarios;
 
-        setTitle("Eliminar Usuario - BiblioControl");
+        // Titulo y tamaño de la ventana
+        setTitle("Eliminar Usuario");
         setSize(350, 150);
-        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Crear y configurar JPanel con GridLayout
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
 
+        // Etiquetas y campos de texto
         panel.add(new JLabel("DNI:"));
         txtDNI = new JTextField();
         panel.add(txtDNI);
@@ -34,18 +37,19 @@ public class EliminarUsuarioGUI extends JFrame implements ActionListener {
         txtPasswordAdmin = new JPasswordField();
         panel.add(txtPasswordAdmin);
 
+        // Botones
         btnEliminar = new JButton("Eliminar");
         btnCancelar = new JButton("Cancelar");
-
-        btnEliminar.addActionListener(this);
-        btnCancelar.addActionListener(this);
 
         panel.add(btnEliminar);
         panel.add(btnCancelar);
 
-        add(panel);
+        btnEliminar.addActionListener(this);
+        btnCancelar.addActionListener(this);
 
+        add(panel);
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -55,11 +59,13 @@ public class EliminarUsuarioGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnEliminar) {
             String DNI = txtDNI.getText();
-            String password = new String(txtPasswordAdmin.getText());
+            String password = txtPasswordAdmin.getText();
+            // Eliminamos el usuario y guardamos los cambios en el archivo de texto
             String resultado = Admin.getInstance().delUsuario(Usuarios, DNI, password);
+            GestorDeArchivos.guardarUsuarios(Usuarios);
             JOptionPane.showMessageDialog(null, resultado);
         } else if (e.getSource() == btnCancelar) {
-            dispose(); // Cierra la ventana
+            dispose();
         }
     }
 }

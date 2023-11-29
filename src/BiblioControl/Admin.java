@@ -13,7 +13,10 @@ import javax.sound.sampled.*;
  */
     public class Admin extends Usuario implements Menus {
     private static Admin instance;
-    private static ArrayList<Libro> peticiones = new ArrayList<>();
+    private ArrayList<Libro> Peticiones, Libros;
+    private ArrayList<UsuarioBiblioteca> Usuarios;
+    private double umbralSonido = 60.0; // Valor predeterminado del umbral
+
     /**
      * Constructor
      * @param DNI DNI del administrador
@@ -33,6 +36,121 @@ import javax.sound.sampled.*;
         }
         return instance;
     }
+
+    /**
+     * Metodo para inicializar el sistema
+     * Carga los usuarios, libros y peticiones de los archivos
+     */
+    public void inicializarSistema() {
+        setUsuarios(GestorDeArchivos.cargarUsuarios());
+        setLibros(GestorDeArchivos.cargarLibros());
+        setPeticiones(GestorDeArchivos.cargarPeticiones());
+    }
+
+    /**
+     * Metodo para establecer el umbral de sonido
+     * @param nuevoUmbral umbral de sonido
+     */
+    public void setUmbralSonido(double nuevoUmbral) {
+        umbralSonido = nuevoUmbral;
+    }
+
+    /**
+     * Metodo para obtener el umbral de sonido
+     * @return devuelve el umbral de sonido
+     */
+    public double getUmbralSonido() { return umbralSonido; }
+
+    /**
+     * Metodo setPeticiones
+     * @param Peticiones ArrayList de peticiones
+     */
+    public void setPeticiones(ArrayList<Libro> Peticiones) { this.Peticiones = Peticiones; }
+
+    /**
+     * Metodo getPeticiones
+     * @return devuelve el ArrayList de peticiones
+     */
+    public ArrayList<Libro> getPeticiones() { return Peticiones; }
+
+    /**
+     * Metodo getLibros
+     * @return devuelve el ArrayList de libros
+     */
+    public ArrayList<Libro> getLibros() {
+        return Libros;
+    }
+
+    /**
+     * Metodo setLibros
+     * @param Libros ArrayList de libros
+     */
+    public void setLibros(ArrayList<Libro> Libros) {
+        this.Libros = Libros;
+    }
+
+    /**
+     * Metodo getUsuarios
+     * @return devuelve el ArrayList de usuarios
+     */
+    public  ArrayList<UsuarioBiblioteca> getUsuarios() {
+        return Usuarios;
+    }
+
+    /**
+     * Metodo setUsuarios
+     * @param Usuarios ArrayList de usuarios
+     */
+    public void setUsuarios(ArrayList<UsuarioBiblioteca> Usuarios) {
+        this.Usuarios = Usuarios;
+    }
+
+
+    /**
+     * Metodo para añadir un libro
+     * @param isbn ISBN del libro
+     * @param titulo Titulo del libro
+     * @param autor Autor del libro
+     * @param biblioteca ArrayList de libros de la biblioteca
+     * @param esDePeticion booleano que indica si el libro viene de las peticiones
+     */
+    public void addLibro(String isbn, String titulo, String autor, ArrayList<Libro> biblioteca, boolean esDePeticion) {
+        // Si el libro no esta la biblioteca creamos un nuevo libro con los datos pasados por parametro y lo agregamos a la biblioteca
+        if (!libroExiste(isbn, biblioteca)) {
+            Libro nuevoLibro = new Libro(isbn, titulo, autor);
+            biblioteca.add(nuevoLibro);
+            GestorDeArchivos.guardarLibros(biblioteca);
+
+            // Si el libro que se quiere añadir esta en la lista de peticiones, se elimina de la lista de peticiones
+            if (esDePeticion) {
+                for (int i = 0; i < Peticiones.size(); i++) {
+                    if (Peticiones.get(i).getISBN().equals(isbn)) {
+                        eliminarPeticion(Peticiones, i);
+                        break;
+                    }
+                }
+                GestorDeArchivos.guardarPeticiones(Peticiones);
+            }
+        }
+    }
+
+    /**
+     * Método para eliminar un libro del ArrayList de libros.
+     * @param isbn ISBN del libro a eliminar.
+     * @param libros ArrayList de libros de la biblioteca.
+     * @return Mensaje indicando el resultado de la operación.
+     */
+    public String eliminarLibro(String isbn, ArrayList<Libro> libros) {
+        // Buscar el libro dentro de la biblioteca y eliminarlo
+        for (int i = 0; i < libros.size(); i++) {
+            if (libros.get(i).getISBN().equals(isbn)) {
+                libros.remove(i);
+                return "Libro eliminado con éxito";
+            }
+        }
+        return "No se encontró un libro con ese ISBN";
+    }
+
     /**
      * Metodo para añadir un usuario
      * @param DNI DNI del usuario
@@ -41,7 +159,7 @@ import javax.sound.sampled.*;
      * @param pistaPassword Pista de la contraseña del usuario
      * @param Usuarios ArrayList de usuarios de la biblioteca
      */
-    public void addUsuario(String DNI, String nombre, String password, String pistaPassword, ArrayList<UsuarioBiblioteca> Usuarios) throws DNIInvalidoException, UsuarioYaExisteException {
+    public void eliminarUsuario(String DNI, String nombre, String password, String pistaPassword, ArrayList<UsuarioBiblioteca> Usuarios) throws DNIInvalidoException, UsuarioYaExisteException {
         // Validar el DNI
         if (!UsuarioBiblioteca.validarDNI(DNI)) {
             throw new DNIInvalidoException("El DNI introducido no es válido.");
@@ -65,8 +183,10 @@ import javax.sound.sampled.*;
      * @return Mensaje indicando el resultado de la operación.
      */
     public String delUsuario(ArrayList<UsuarioBiblioteca> Usuarios, String DNI, String password) {
+        // Si la contraseña es correcta pasamos a buscar el usuario
         if (this.ComprobarPassword(password)) {
             boolean usuarioEncontrado = false;
+            // Buscar el usuario y eliminarlo
             for (int i = 0; i < Usuarios.size(); i++) {
                 if (Usuarios.get(i).getDNI().equals(DNI)) {
                     Usuarios.remove(i);
@@ -83,69 +203,20 @@ import javax.sound.sampled.*;
             return "Contraseña del administrador incorrecta";
         }
     }
+
     /**
-     * Método para eliminar un libro del ArrayList de libros.
-     * @param isbn ISBN del libro a eliminar.
-     * @param libros ArrayList de libros de la biblioteca.
-     * @return Mensaje indicando el resultado de la operación.
+     * Metodo para comprobar si existe una peticion
+     * @param isbn ISBN del libro que se va a comprobar si esta en las peticiones
+     * @return devuelve true si la peticion existe, false si no existe
      */
-    public String eliminarLibro(String isbn, ArrayList<Libro> libros) {
-        for (int i = 0; i < libros.size(); i++) {
-            if (libros.get(i).getISBN().equals(isbn)) {
-                libros.remove(i);
-                return "Libro eliminado con éxito";
+    public boolean peticionExiste(String isbn) {
+        // Buscar el libro en las peticiones y devolver true si se encuentra
+        for (Libro libro : getPeticiones()) {
+            if (libro.getISBN().equals(isbn)) {
+                return true;
             }
         }
-        return "No se encontró un libro con ese ISBN";
-    }
-
-    /**
-     * Metodo autenticarAdmin
-     * Comprueba si el DNI y la contraseña introducidos son correctos
-     * @param password Contraseña del administrador
-     * @return devuelve true si el usuario y la contraseña son correctos, false si no lo son
-     */
-    public boolean autenticarAdmin(String password) {
-        return this.ComprobarPassword(password);
-    }
-
-    /**
-     * Excepcion para cuando no hay peticiones
-     */
-    public class SinPeticionesException extends Exception {
-        public SinPeticionesException(String mensaje) {
-            super(mensaje);
-        }
-    }
-
-    /**
-     * Metodo para añadir peticiones de libros
-     * @param libro Libro que se va a añadir a las peticiones
-     */
-    public void addPeticion(Libro libro) {
-        peticiones.add(libro);
-    }
-
-    /**
-     * Metodo para obtener las peticiones
-     * @return devuelve las peticiones
-     */
-    public ArrayList<Libro> getPeticiones() {
-        return peticiones;
-    }
-
-    /**
-     * Método para añadir un libro desde las peticiones a la lista de libros.
-     * @param peticiones ArrayList de peticiones.
-     * @param libros ArrayList de libros.
-     * @param selectedIndex Índice del libro seleccionado en peticiones.
-     */
-    public void addLibroDePeticiones(ArrayList<Libro> peticiones, ArrayList<Libro> libros, int selectedIndex) {
-        if (selectedIndex != -1) {
-            Libro libroSeleccionado = peticiones.get(selectedIndex);
-            libros.add(libroSeleccionado);
-            peticiones.remove(selectedIndex);
-        }
+        return false;
     }
 
     /**
@@ -154,6 +225,7 @@ import javax.sound.sampled.*;
      * @param index Índice de la petición seleccionada.
      */
     public void eliminarPeticion(ArrayList<Libro> peticiones, int index) {
+        // Si se ha seleccionado una petición, eliminarla
         if (index != -1) {
             peticiones.remove(index);
         }
@@ -161,11 +233,14 @@ import javax.sound.sampled.*;
 
     /**
      * Metodo para medir el nivel de sonido de la sala
+     * @param gui Interfaz gráfica de la ventana de gestión de sonido
      */
     public void medirNivelDeSonido(GestionarSonidoGUI gui) {
+        // Se utiliza un hilo para no bloquear la interfaz gráfica
+        // Tambien se usa invokeLater para actualizar la interfaz gráfica desde el hilo
         new Thread(() -> {
             try {
-                int segundos = Integer.parseInt(gui.txtSegundos.getText());
+                int segundos = Integer.parseInt(gui.getTxtSegundos().getText());
                 AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
@@ -182,22 +257,21 @@ import javax.sound.sampled.*;
 
                 byte[] buffer = new byte[1024];
                 long endTime = System.currentTimeMillis() + segundos * 1000;
-                double umbral = 40.0; // Umbral de sonido en dB
+                double umbral = Admin.getInstance().getUmbralSonido();
 
                 while (System.currentTimeMillis() < endTime) {
                     int bytesRead = line.read(buffer, 0, buffer.length);
                     double level = calculateLevel(buffer, bytesRead);
                     SwingUtilities.invokeLater(() -> {
                         if (level > umbral) {
-                            gui.lblNivelSonido.setForeground(Color.RED);
-                            gui.lblNivelSonido.setText("SILENCIO, POR FAVOR - " + String.format("%.2f dB", level));
+                            gui.getLblNivelSonido().setForeground(Color.RED);
+                            gui.getLblNivelSonido().setText("SILENCIO, POR FAVOR - " + String.format("%.2f dB", level));
                         } else {
-                            gui.lblNivelSonido.setForeground(Color.BLACK);
-                            gui.lblNivelSonido.setText("Nivel de Sonido: " + String.format("%.2f dB", level));
+                            gui.getLblNivelSonido().setForeground(Color.BLACK);
+                            gui.getLblNivelSonido().setText("Nivel de Sonido: " + String.format("%.2f dB", level));
                         }
                     });
                 }
-
                 line.stop();
                 line.close();
 
@@ -220,7 +294,7 @@ import javax.sound.sampled.*;
      * @param bytesRead Número de bytes leídos del micrófono en el último ciclo
      * @return devuelve el nivel de sonido en decibelios
      */
-    private static double calculateLevel(byte[] buffer, int bytesRead) {
+    public double calculateLevel(byte[] buffer, int bytesRead) {
         double sum = 0.0;
 
         for (int i = 0; i < bytesRead; i++) {
@@ -235,7 +309,7 @@ import javax.sound.sampled.*;
     /**
      * Excepcion para cuando el DNI no es valido
      */
-    public static class DNIInvalidoException extends Exception {
+    public class DNIInvalidoException extends Exception {
         public DNIInvalidoException(String mensaje) {
             super(mensaje);
         }
@@ -244,8 +318,17 @@ import javax.sound.sampled.*;
     /**
      * Excepcion para cuando el usuario ya existe
      */
-    public static class UsuarioYaExisteException extends Exception {
+    public class UsuarioYaExisteException extends Exception {
         public UsuarioYaExisteException(String mensaje) {
+            super(mensaje);
+        }
+    }
+
+    /**
+     * Excepcion para cuando hay campos vacios
+     */
+    public static class CamposVaciosException extends Exception {
+        public CamposVaciosException(String mensaje) {
             super(mensaje);
         }
     }
@@ -264,7 +347,7 @@ import javax.sound.sampled.*;
         }
         return false;
     }
-
+    
     /**
      * Metodo que muestra el menu de administrador
      * Desde aqui se pueden añadir y eliminar usuarios y libros, gestionar el sonido de la sala y las peticiones

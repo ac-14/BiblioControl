@@ -8,7 +8,6 @@ public class Libro {
     private String ISBN;
     private String titulo;
     private String autor;
-    private boolean disponible;
 
     /**
      * Constructor de la clase Libro
@@ -21,7 +20,6 @@ public class Libro {
         this.ISBN = ISBN;
         this.titulo = titulo;
         this.autor = autor;
-        this.disponible = true;
     }
 
     /**
@@ -65,27 +63,20 @@ public class Libro {
     }
 
     /**
-     * Metodo setAutor
-     * @param autor Autor del libro
+     * Metodo toString que devuelve una cadena con los atributos del libro
+     * @return devuelve una cadena con los atributos del libro
      */
-    public void setAutor(String autor){
-        this.autor = autor;
+    public String toArchivoString() {
+        return ISBN + "," + titulo + "," + autor;
     }
 
     /**
-     * Metodo getDisponible
-     * @return devuelve si el libro esta disponible o no
+     * Metodo fromString que recibe una cadena y devuelve un libro
+     * @param linea cadena con los atributos del libro
+     * @return devuelve un libro
      */
-    public boolean getDisponible() {
-        return disponible;
+    public static Libro fromString(String linea) {
+        String[] partes = linea.split(",");
+        return new Libro(partes[0], partes[1], partes[2]);
     }
-
-    /**
-     * Metodo setDisponible
-     * @param disponible Disponibilidad del libro
-     */
-    public void setDisponible(boolean disponible) {
-        this.disponible = disponible;
-    }
-
 }

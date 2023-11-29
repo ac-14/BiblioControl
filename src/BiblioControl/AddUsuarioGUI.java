@@ -19,14 +19,14 @@ public class AddUsuarioGUI extends JFrame implements ActionListener {
      */
     public AddUsuarioGUI(ArrayList<UsuarioBiblioteca> Usuarios) {
         this.Usuarios = Usuarios;
+
+        // Configuración del JFrame
         setTitle("Añadir Usuario - BiblioControl");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(350, 280);
-        setLocationRelativeTo(null);
 
         // Crear y configurar JPanel con GridLayout
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
-        setContentPane(panel);
 
         // Etiquetas y campos de texto
         panel.add(new JLabel("DNI:"));
@@ -55,7 +55,9 @@ public class AddUsuarioGUI extends JFrame implements ActionListener {
         btnGuardar.addActionListener(this);
         btnCancelar.addActionListener(this);
 
+        add(panel);
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -70,9 +72,18 @@ public class AddUsuarioGUI extends JFrame implements ActionListener {
                 String password = txtPassword.getText();
                 String pistaPassword = txtPistaPassword.getText();
 
-                Admin.getInstance().addUsuario(DNI, nombre, password, pistaPassword, Usuarios);
+                // Verificar que ningun campo este vacio
+                if (DNI.equals("") || nombre.equals("") || password.equals("") || pistaPassword.equals("")) {
+                    throw new Admin.CamposVaciosException("No puede haber campos vacios");
+                }
+
+                // Se crea el usuario y se guarda en el archivo de usuarios
+                Admin.getInstance().eliminarUsuario(DNI, nombre, password, pistaPassword, Usuarios);
+                GestorDeArchivos.guardarUsuarios(Usuarios);
                 JOptionPane.showMessageDialog(null, "Usuario creado con éxito");
                 dispose();
+            } catch (Admin.CamposVaciosException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
             } catch (Admin.DNIInvalidoException | Admin.UsuarioYaExisteException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }

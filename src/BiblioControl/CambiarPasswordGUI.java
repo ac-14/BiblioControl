@@ -24,27 +24,29 @@ public class CambiarPasswordGUI extends JFrame implements ActionListener {
         setSize(300, 150);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Panel para los campos de contraseña
+        // Crear y configurar JPanel con GridLayout
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+
+        // Etiquetas y campos de texto (de tipo JPasswordField para que no se vea la contraseña)
+        panel.add(new JLabel("Contraseña actual:"));
         txtPasswordActual = new JPasswordField();
+        panel.add(txtPasswordActual);
+
+        panel.add(new JLabel("Nueva contraseña:"));
         txtPasswordNueva = new JPasswordField();
+        panel.add(txtPasswordNueva);
 
         // Añadir botones
         btnCambiar = new JButton("Cambiar");
         btnCancelar = new JButton("Cancelar");
-        btnCambiar.addActionListener(this);
-        btnCancelar.addActionListener(this);
 
-        panel.add(new JLabel("Contraseña actual:"));
-        panel.add(txtPasswordActual);
-        panel.add(new JLabel("Nueva contraseña:"));
-        panel.add(txtPasswordNueva);
         panel.add(btnCambiar);
         panel.add(btnCancelar);
 
-        // Añadir paneles al JFrame
-        add(panel);
+        btnCambiar.addActionListener(this);
+        btnCancelar.addActionListener(this);
 
+        add(panel);
         setVisible(true);
         setLocationRelativeTo(null);
     }
@@ -65,7 +67,7 @@ public class CambiarPasswordGUI extends JFrame implements ActionListener {
             }
         }
         else if (e.getSource() == btnCancelar) {
-            dispose(); // Cierra la ventana
+            dispose();
         }
     }
 

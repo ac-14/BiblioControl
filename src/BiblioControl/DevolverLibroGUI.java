@@ -9,45 +9,50 @@ import java.util.ArrayList;
  * Clase que representa la interfaz gráfica para devolver un libro
  */
 public class DevolverLibroGUI extends JFrame implements ActionListener {
-    private JTextField txtISBN;
     private JButton btnDevolver, btnCancelar;
+    private JList<String> listLibrosReservados;
     private UsuarioBiblioteca usuarioActual;
     private ArrayList<Libro> biblioteca;
 
     /**
      * Constructor de la clase DevolverLibroGUI
-     * @param usuario Usuario que devuelve el libro
-     * @param biblioteca ArrayList de libros
+     * @param usuario el usuario
+     * @param biblioteca ArrayList de libros de la biblioteca
      */
     public DevolverLibroGUI(UsuarioBiblioteca usuario, ArrayList<Libro> biblioteca) {
         this.usuarioActual = usuario;
         this.biblioteca = biblioteca;
 
+        // Configuración del JFrame
         setTitle("Devolver Libro");
-        setSize(300, 120);
+        setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
 
-        JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5)); // GridLayout con 2 filas y 2 columnas
+        JPanel panel = new JPanel(new BorderLayout());
 
-        // Componentes
-        txtISBN = new JTextField(15);
+        // Lista de libros reservados
+        listLibrosReservados = new JList<>();
+        panel.add(new JScrollPane(listLibrosReservados), BorderLayout.CENTER);
+        listLibrosReservados.setListData(usuarioActual.getLibrosReservados());
+
+        // Botones
         btnDevolver = new JButton("Devolver");
         btnCancelar = new JButton("Cancelar");
 
-        // Eventos
         btnDevolver.addActionListener(this);
         btnCancelar.addActionListener(this);
 
-        // Añadir componentes al panel
-        panel.add(new JLabel("ISBN: "));
-        panel.add(txtISBN);
-        panel.add(btnDevolver);
-        panel.add(btnCancelar);
+        // Creamos el JPanel y añadimos los botones
+        JPanel panelBotones = new JPanel();
+        panelBotones.add(btnDevolver);
+        panelBotones.add(btnCancelar);
 
-        // Añadir el panel al JFrame
-        add(panel);
+        // Añadir paneles al JFrame
+        add(panel, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
+
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -56,11 +61,22 @@ public class DevolverLibroGUI extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnDevolver) {
-            String mensaje = usuarioActual.devolverLibro(txtISBN.getText(), biblioteca);
-            JOptionPane.showMessageDialog(this, mensaje);
-        }
-        else if (e.getSource() == btnCancelar) {
-            dispose(); // Cierra la ventana
+            int selectedIndex = listLibrosReservados.getSelectedIndex();
+            if (selectedIndex != -1) {
+                // Se obtiene el ISBN del libro seleccionado y se devuelve el libro
+                String seleccionado = listLibrosReservados.getSelectedValue();
+                String isbn = seleccionado.split(" - ISBN: ")[1]; // Se divide el string por " - ISBN: " y se obtiene el segundo elemento
+                String mensaje = usuarioActual.devolverLibro(isbn, biblioteca);
+
+                GestorDeArchivos.guardarLibros(biblioteca);
+                GestorDeArchivos.guardarUsuarios(Admin.getInstance().getUsuarios());
+                JOptionPane.showMessageDialog(this, mensaje);
+                listLibrosReservados.setListData(usuarioActual.getLibrosReservados());
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, seleccione un libro de la lista.");
+            }
+        } else if (e.getSource() == btnCancelar) {
+            dispose();
         }
     }
 }

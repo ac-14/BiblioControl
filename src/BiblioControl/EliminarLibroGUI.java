@@ -6,62 +6,76 @@ import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
- * Clase que representa la interfaz gráfica para eliminar un libro
+ * Clase EliminarLibroGUI que permite al admin eliminar un libro de la biblioteca.
  */
 public class EliminarLibroGUI extends JFrame implements ActionListener {
-    private JTextField txtISBN;
+    private JList<String> listLibros;
     private JButton btnEliminar, btnCancelar;
     private ArrayList<Libro> Libros;
 
     /**
-     * Constructor de la clase EliminarLibroGUI que recibe un ArrayList de libros y muestra la interfaz gráfica para eliminar un libro
-     * @param Libros ArrayList de libros de la biblioteca
+     * Constructor de la clase EliminarLibroGUI.
+     * @param Libros ArrayList de Libro que representa la biblioteca.
      */
     public EliminarLibroGUI(ArrayList<Libro> Libros) {
         this.Libros = Libros;
 
         // Configuración del JFrame
-        setTitle("Eliminar Libro - BiblioControl");
-        setSize(350, 120);
-        setLocationRelativeTo(null);
+        setTitle("Eliminar Libro");
+        setSize(350, 300);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Crear y configurar JPanel con GridLayout
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(2, 2, 10, 10));
+        listLibros = new JList<>();
+        JScrollPane scrollPane = new JScrollPane(listLibros);
 
-        // Etiquetas y campos de texto
-        panel.add(new JLabel("ISBN:"));
-        txtISBN = new JTextField();
-        panel.add(txtISBN);
-
-        // Botones
+        actualizarListaLibros();
         btnEliminar = new JButton("Eliminar");
         btnCancelar = new JButton("Cancelar");
-
-        // Añadir botones al panel
-        panel.add(btnEliminar);
-        panel.add(btnCancelar);
 
         btnEliminar.addActionListener(this);
         btnCancelar.addActionListener(this);
 
-        add(panel);
+        JPanel panelBotones = new JPanel();
+        panelBotones.add(btnEliminar);
+        panelBotones.add(btnCancelar);
+
+        add(scrollPane, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
 
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     /**
-     * Método que procesa los eventos de la interfaz gráfica
+     * Método que procesa los eventos de la interfaz gráfica.
      * @param e el evento
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnEliminar) {
-            String ISBN = txtISBN.getText();
-            String mensaje = Admin.getInstance().eliminarLibro(ISBN, Libros);
-            JOptionPane.showMessageDialog(null, mensaje);
+            int selectedIndex = listLibros.getSelectedIndex();
+            // Si se ha seleccionado un libro, se elimina
+            if (selectedIndex != -1) {
+                Libro libroSeleccionado = Libros.get(selectedIndex);
+                String mensaje = Admin.getInstance().eliminarLibro(libroSeleccionado.getISBN(), Libros);
+                GestorDeArchivos.guardarLibros(Libros);
+                actualizarListaLibros();
+                JOptionPane.showMessageDialog(null, mensaje);
+            } else {
+                JOptionPane.showMessageDialog(null, "Por favor, seleccione un libro para eliminar.");
+            }
         } else if (e.getSource() == btnCancelar) {
-            dispose(); // Cierra la ventana
+            dispose();
         }
     }
-}
 
+    /**
+     * Método para actualizar la lista de libros en la interfaz gráfica.
+     */
+    private void actualizarListaLibros() {
+        String[] librosArray = new String[Libros.size()];
+        for (int i = 0; i < Libros.size(); i++) {
+            librosArray[i] = Libros.get(i).getTitulo() + " (ISBN: " + Libros.get(i).getISBN() + ")";
+        }
+        listLibros.setListData(librosArray);
+    }
+}

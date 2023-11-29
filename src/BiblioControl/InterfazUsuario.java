@@ -17,25 +17,17 @@ public class InterfazUsuario extends JFrame implements ActionListener {
      */
     public InterfazUsuario(UsuarioBiblioteca usuario) {
         this.usuarioActual = usuario;
+        // Titulo y tamaño de la ventana
         setTitle("Usuario - BiblioControl");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(190, 180);
-        setLocationRelativeTo(null);
 
+        // Inicialización y configuración de los botones
         btnReservarLibro = new JButton("Reservar Libro");
         btnSolicitarLibro = new JButton("Solicitar Libro");
         btnDevolverLibro = new JButton("Devolver Libro");
         btnCambiarPassword = new JButton("Cambiar Contraseña");
         btnSalir = new JButton("Salir");
-
-        btnReservarLibro.addActionListener(this);
-        btnSolicitarLibro.addActionListener(this);
-        btnDevolverLibro.addActionListener(this);
-        btnCambiarPassword.addActionListener(this);
-        btnSalir.addActionListener(this);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         btnReservarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSolicitarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -43,16 +35,27 @@ public class InterfazUsuario extends JFrame implements ActionListener {
         btnCambiarPassword.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        // Creación del panel y añadir los botones a él
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
         panel.add(btnReservarLibro);
         panel.add(btnSolicitarLibro);
         panel.add(btnDevolverLibro);
         panel.add(btnCambiarPassword);
         panel.add(btnSalir);
 
+        // Añadimos los listeners a los botones
+        btnReservarLibro.addActionListener(this);
+        btnSolicitarLibro.addActionListener(this);
+        btnDevolverLibro.addActionListener(this);
+        btnCambiarPassword.addActionListener(this);
+        btnSalir.addActionListener(this);
+
         getContentPane().add(panel);
+        setLocationRelativeTo(null);
         setVisible(true);
     }
-
 
     /**
      * Método que procesa los eventos de la interfaz gráfica
@@ -60,16 +63,16 @@ public class InterfazUsuario extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnReservarLibro) {
-            new ReservarLibroGUI(usuarioActual, Main.getLibros());
+            new ReservarLibroGUI(usuarioActual,Admin.getInstance().getLibros()); // Abre la ventana para reservar un libro
         } else if (e.getSource() == btnSolicitarLibro) {
-            new SolicitarLibroGUI(usuarioActual, Main.getLibros());
+            new SolicitarLibroGUI(usuarioActual, Admin.getInstance().getLibros()); // Abre la ventana para solicitar un libro
         } else if (e.getSource() == btnDevolverLibro) {
-            new DevolverLibroGUI(usuarioActual, Main.getLibros());
+            new DevolverLibroGUI(usuarioActual, Admin.getInstance().getLibros()); // Abre la ventana para devolver un libro
         } else if (e.getSource() == btnCambiarPassword) {
-            new CambiarPasswordGUI(usuarioActual);
+            new CambiarPasswordGUI(usuarioActual); // Abre la ventana para cambiar la contraseña
         } else if (e.getSource() == btnSalir) {
             dispose(); // Cierra la ventana
-            new InterfazBiblioControl(); // Abre la interfaz de inicio de sesión
+            new IniciarSesionGUI(); // Abre la interfaz de inicio de sesión
         }
     }
 }

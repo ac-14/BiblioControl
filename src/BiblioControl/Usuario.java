@@ -47,6 +47,38 @@ public abstract class Usuario {
         this.password = password;
     }
 
+    /**
+     * Metodo getNombre
+     * @return devuelve el nombre del usuario
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * Metodo setNombre
+     * @param nombre Nombre del usuario
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+}
+
+    /**
+     * Metodo getPassword
+     * @return devuelve la contraseña del usuario
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Metodo setPassword
+     * @param Password Contraseña del usuario
+     */
+    public void setPassword(int Password) {
+        this.password = password;
+    }
+
 
     /**
      * Metodo getPistaPassword

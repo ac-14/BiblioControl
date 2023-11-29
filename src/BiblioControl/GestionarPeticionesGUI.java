@@ -23,10 +23,9 @@ public class GestionarPeticionesGUI extends JFrame implements ActionListener {
         this.peticiones = peticiones;
 
         setTitle("Gestionar Peticiones - BiblioControl");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLayout(new BorderLayout());
-        setLocationRelativeTo(null);
 
         listPeticiones = new JList<>();
         JScrollPane scrollPane = new JScrollPane(listPeticiones);
@@ -50,6 +49,7 @@ public class GestionarPeticionesGUI extends JFrame implements ActionListener {
         add(panelBotones, BorderLayout.SOUTH);
 
         setVisible(true);
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -57,13 +57,26 @@ public class GestionarPeticionesGUI extends JFrame implements ActionListener {
      * @param e el evento
      */
     public void actionPerformed(ActionEvent e) {
+        // Si se pulsa el botón de añadir, se añade el libro a la biblioteca
         if (e.getSource() == btnAñadir) {
             int selectedIndex = listPeticiones.getSelectedIndex();
-            Admin.getInstance().addLibroDePeticiones(peticiones, libros, selectedIndex);
+                // Seleccionamos el libro, capturamos los datos y lo añadimos a la biblioteca
+                Libro libroSeleccionado = peticiones.get(selectedIndex);
+                String isbn = libroSeleccionado.getISBN();
+                String titulo = libroSeleccionado.getTitulo();
+                String autor = libroSeleccionado.getAutor();
+                Admin.getInstance().addLibro(isbn, titulo, autor, Admin.getInstance().getLibros(), true); // true porque viene de peticiones
+
+            // Actualizar las JList
+            GestorDeArchivos.guardarLibros(libros);
+            GestorDeArchivos.guardarPeticiones(peticiones);
             actualizarListaPeticiones();
         } else if (e.getSource() == btnEliminar) {
+            // Eliminar la petición seleccionada
             int selectedIndex = listPeticiones.getSelectedIndex();
             Admin.getInstance().eliminarPeticion(peticiones, selectedIndex);
+            GestorDeArchivos.guardarLibros(libros);
+            GestorDeArchivos.guardarPeticiones(peticiones);
             actualizarListaPeticiones();
         } else if (e.getSource() == btnSalir) {
             dispose();
