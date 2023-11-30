@@ -65,19 +65,23 @@ public class SolicitarLibroGUI extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnBuscar) {
+            // Si le damos a boton buscar, se busca el libro por titulo ingresado en la interfaz
             String titulo = txtTitulo.getText();
             resultadosBusqueda = BusquedaInternet.buscarPorTitulo(titulo);
-            actualizarListaResultados();
+            Admin.getInstance().actualizarListaResultados(resultadosBusqueda, listResultados);
         } else if (e.getSource() == btnCancelar) {
-            dispose();
+            dispose(); // Si le damos a boton cancelar, se cierra la ventana
         } else if (e.getSource() == btnSolicitar) {
+            // Si le damos a SOlicitar, se solicita el libro seleccionado en la lista
             int selectedIndex = listResultados.getSelectedIndex();
             if (selectedIndex != -1) {
+                // Capturamos los datos del libro seleccionado
                 Libro libroSeleccionado = resultadosBusqueda.get(selectedIndex);
                 String isbn = libroSeleccionado.getISBN();
                 String titulo = libroSeleccionado.getTitulo();
                 String autor = libroSeleccionado.getAutor();
 
+                // Solicitamos el libro con los datos capturados
                 String mensaje = usuarioActual.solicitarLibro(isbn, titulo, autor, biblioteca);
                 JOptionPane.showMessageDialog(this, mensaje);
             } else {
@@ -86,15 +90,4 @@ public class SolicitarLibroGUI extends JFrame implements ActionListener {
         }
     }
 
-    /**
-     * Método que actualiza la lista de resultados de búsqueda
-     */
-    public void actualizarListaResultados() {
-        String[] resultadosArray = new String[resultadosBusqueda.size()];
-        for (int i = 0; i < resultadosBusqueda.size(); i++) {
-            Libro libro = resultadosBusqueda.get(i);
-            resultadosArray[i] = libro.getTitulo() + " - ISBN: " + libro.getISBN();
-        }
-        listResultados.setListData(resultadosArray);
-    }
 }

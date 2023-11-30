@@ -58,8 +58,10 @@ public class CambiarPasswordGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnCambiar) {
             try {
+                // Guardamos la contraseña actual y la nueva en variables de tipo String
                 String passwordActual = new String(txtPasswordActual.getPassword());
                 String passwordNueva = new String(txtPasswordNueva.getPassword());
+                // Utilizamos el método cambiarPassword de la clase UsuarioBiblioteca y mostramos un mensaje de éxito
                 usuarioActual.cambiarPassword(passwordActual, passwordNueva);
                 JOptionPane.showMessageDialog(this, "Contraseña cambiada correctamente");
             } catch (UsuarioBiblioteca.PasswordIncorrectaException ex) {

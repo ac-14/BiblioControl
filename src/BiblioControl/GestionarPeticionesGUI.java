@@ -75,6 +75,7 @@ public class GestionarPeticionesGUI extends JFrame implements ActionListener {
             // Eliminar la petición seleccionada
             int selectedIndex = listPeticiones.getSelectedIndex();
             Admin.getInstance().eliminarPeticion(peticiones, selectedIndex);
+            // Guardamos los cambios en los archivos
             GestorDeArchivos.guardarLibros(libros);
             GestorDeArchivos.guardarPeticiones(peticiones);
             actualizarListaPeticiones();

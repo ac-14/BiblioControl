@@ -52,9 +52,9 @@ public class InterfazBiblioControl extends JFrame implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnIniciarSesion) {
-            new IniciarSesionGUI();
+            new IniciarSesionGUI(); // Si se presiona el botón de iniciar sesión, se muestra la interfaz gráfica para iniciar sesión
         } else if (e.getSource() == btnCrearUsuario) {
-            new AddUsuarioGUI(Admin.getInstance().getUsuarios());
+            new AddUsuarioGUI(Admin.getInstance().getUsuarios()); // Si se presiona el botón de crear usuario, se muestra la interfaz gráfica para crear un usuario
         } else if (e.getSource() == btnCerrar) {
             System.exit(0);
         }

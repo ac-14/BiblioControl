@@ -34,8 +34,10 @@ public class GestorDeArchivos {
      * @return devuelve un ArrayList de usuarios
      */
     public static ArrayList<UsuarioBiblioteca> cargarUsuarios() {
+        // Creamos un ArrayList de usuarios
         ArrayList<UsuarioBiblioteca> usuarios = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(ARCHIVO_USUARIOS))) {
+            // Mientras que haya una siguiente linea, la añadimos al ArrayList
             while (scanner.hasNextLine()) {
                 String linea = scanner.nextLine();
                 usuarios.add(UsuarioBiblioteca.fromString(linea));

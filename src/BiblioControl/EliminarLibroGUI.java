@@ -72,6 +72,7 @@ public class EliminarLibroGUI extends JFrame implements ActionListener {
      * Método para actualizar la lista de libros en la interfaz gráfica.
      */
     private void actualizarListaLibros() {
+        // Convertimos el ArrayList de libros a un array de Strings
         String[] librosArray = new String[Libros.size()];
         for (int i = 0; i < Libros.size(); i++) {
             librosArray[i] = Libros.get(i).getTitulo() + " (ISBN: " + Libros.get(i).getISBN() + ")";

@@ -70,7 +70,7 @@ public class AddLibroGUI extends JFrame implements ActionListener {
         if (e.getSource() == btnBuscar) {
             String titulo = txtTitulo.getText();
             resultadosBusqueda = BusquedaInternet.buscarPorTitulo(titulo);
-            actualizarListaResultados();
+            Admin.getInstance().actualizarListaResultados(resultadosBusqueda, listResultados);
         } else if (e.getSource() == btnCancelar) {
             dispose();
         // Si el evento es el botón de agregar se agrega el libro seleccionado a la biblioteca
@@ -88,17 +88,5 @@ public class AddLibroGUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Libro agregado correctamente.");
             }
         }
-    }
-
-    /**
-     * Método que actualiza la lista de resultados de la búsqueda para mostrar el array de resultados
-     */
-    public void actualizarListaResultados() {
-        String[] resultadosArray = new String[resultadosBusqueda.size()];
-        for (int i = 0; i < resultadosBusqueda.size(); i++) {
-            Libro libro = resultadosBusqueda.get(i);
-            resultadosArray[i] = libro.getTitulo() + " - ISBN: " + libro.getISBN();
-        }
-        listResultados.setListData(resultadosArray);
     }
 }

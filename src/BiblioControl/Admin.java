@@ -194,6 +194,7 @@ import javax.sound.sampled.*;
                     break;
                 }
             }
+            // Devolvemos un mensaje dependiendo de si se encontró o no el usuario
             if (usuarioEncontrado) {
                 return "Usuario eliminado con éxito";
             } else {
@@ -240,10 +241,12 @@ import javax.sound.sampled.*;
         // Tambien se usa invokeLater para actualizar la interfaz gráfica desde el hilo
         new Thread(() -> {
             try {
+                // Obtener el número de segundos de la interfaz gráfica y crear un TargetDataLine para leer el audio del micrófono con el formato especificado
                 int segundos = Integer.parseInt(gui.getTxtSegundos().getText());
                 AudioFormat format = new AudioFormat(44100, 16, 1, true, true);
                 DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
 
+                // Si el micrófono no es soportado, mostrar un mensaje de error en la interfaz gráfica
                 if (!AudioSystem.isLineSupported(info)) {
                     SwingUtilities.invokeLater(() -> {
                         JOptionPane.showMessageDialog(gui, "Micrófono no soportado", "Error", JOptionPane.ERROR_MESSAGE);
@@ -251,14 +254,17 @@ import javax.sound.sampled.*;
                     return;
                 }
 
+                // Abrir el TargetDataLine y leer los datos del micrófono
                 TargetDataLine line = (TargetDataLine) AudioSystem.getLine(info);
                 line.open(format);
                 line.start();
 
+                // Guardamos los datos del micrófono en un buffer y calculamos el nivel de sonido
                 byte[] buffer = new byte[1024];
                 long endTime = System.currentTimeMillis() + segundos * 1000;
                 double umbral = Admin.getInstance().getUmbralSonido();
 
+                // Mientras no se haya alcanzado el tiempo límite, leer los datos del micrófono y calcular el nivel de sonido
                 while (System.currentTimeMillis() < endTime) {
                     int bytesRead = line.read(buffer, 0, buffer.length);
                     double level = calculateLevel(buffer, bytesRead);
@@ -346,6 +352,15 @@ import javax.sound.sampled.*;
             }
         }
         return false;
+    }
+
+    public void actualizarListaResultados(ArrayList<Libro> libros, JList<String> lista) {
+        String[] resultadosArray = new String[libros.size()];
+        for (int i = 0; i < libros.size(); i++) {
+            Libro libro = libros.get(i);
+            resultadosArray[i] = libro.getTitulo() + " - ISBN: " + libro.getISBN();
+        }
+        lista.setListData(resultadosArray);
     }
     
     /**

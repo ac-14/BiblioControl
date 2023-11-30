@@ -179,7 +179,7 @@ public class UsuarioBiblioteca extends Usuario implements Menus{
     }
 
     /**
-     * Metodo fromString que crea un usuario a partir de una linea de texto
+     * Metodo fromString que crea un usuario a partir de una linea del archivo de usuarios
      * @param linea  Linea de texto
      * @return Devuelve un usuario
      */

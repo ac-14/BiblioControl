@@ -68,6 +68,7 @@ public class DevolverLibroGUI extends JFrame implements ActionListener {
                 String isbn = seleccionado.split(" - ISBN: ")[1]; // Se divide el string por " - ISBN: " y se obtiene el segundo elemento
                 String mensaje = usuarioActual.devolverLibro(isbn, biblioteca);
 
+                // Se guardan los cambios en los archivos
                 GestorDeArchivos.guardarLibros(biblioteca);
                 GestorDeArchivos.guardarUsuarios(Admin.getInstance().getUsuarios());
                 JOptionPane.showMessageDialog(this, mensaje);

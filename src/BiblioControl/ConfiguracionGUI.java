@@ -50,7 +50,7 @@ public class ConfiguracionGUI extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnGuardar) {
             try {
-                // Actualizar umbral convirtiendo el texto a double
+                // Actualizar umbral convirtiendo el texto a double y llamar al método setUmbralSonido de la clase Admin
                 double nuevoUmbral = Double.parseDouble(txtUmbral.getText());
                 Admin.getInstance().setUmbralSonido(nuevoUmbral);
                 JOptionPane.showMessageDialog(this, "Umbral actualizado a " + nuevoUmbral + " dB");
