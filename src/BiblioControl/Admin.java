@@ -355,14 +355,17 @@ import javax.sound.sampled.*;
     }
 
     public void actualizarListaResultados(ArrayList<Libro> libros, JList<String> lista) {
+        // Creamos un array de Strings con los resultados de la búsqueda para mostrarlos en la JList
         String[] resultadosArray = new String[libros.size()];
+        // Vamos agregando los resultados al array
         for (int i = 0; i < libros.size(); i++) {
             Libro libro = libros.get(i);
             resultadosArray[i] = libro.getTitulo() + " - ISBN: " + libro.getISBN();
         }
+        // Mostramos en la JList los resultados de la búsqueda
         lista.setListData(resultadosArray);
     }
-    
+
     /**
      * Metodo que muestra el menu de administrador
      * Desde aqui se pueden añadir y eliminar usuarios y libros, gestionar el sonido de la sala y las peticiones
