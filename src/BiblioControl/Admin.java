@@ -318,7 +318,7 @@ import javax.sound.sampled.*;
     /**
      * Excepcion para cuando el usuario ya existe
      */
-    public class UsuarioYaExisteException extends Exception {
+    public static class UsuarioYaExisteException extends Exception {
         public UsuarioYaExisteException(String mensaje) {
             super(mensaje);
         }
