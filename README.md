@@ -122,8 +122,7 @@ private static Admin instance;
 ### Práctica 5
 Hemos agregado la función de conexión con internet, que era lo último que nos quedaba.
 
-**Conexión a la API de Google Books**
-Para ello hemos utilizado una biblioteca externa, que nos permite poder buscar libros a través del titulo por internet:
+**Conexión a la API de Google Books**: Para ello hemos utilizado una biblioteca externa, que nos permite poder buscar libros a través del titulo por internet:
 ```Java
 import com.google.gson.*;
 ```
