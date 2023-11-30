@@ -49,7 +49,7 @@ Además, nuestra aplicación incluye una función que, utilizando el micrófono 
 
 ### Diagrama UML
 <p align="center">
-<img width="882" alt="imagen" src="https://github.com/ac-14/TrabajoJava/assets/119895282/38b12ac2-4ae7-4b45-9b9b-00f0a9e42a85">
+<img width="882" alt="imagen" src="https://github.com/ac-14/TrabajoJava/assets/119895282/e349e910-4e8b-4fe9-a4a4-ee1f3e1135d3">
 </p>
 
 ### Práctica 2
