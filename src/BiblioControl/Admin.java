@@ -309,7 +309,7 @@ import javax.sound.sampled.*;
     /**
      * Excepcion para cuando el DNI no es valido
      */
-    public class DNIInvalidoException extends Exception {
+    public static class DNIInvalidoException extends Exception {
         public DNIInvalidoException(String mensaje) {
             super(mensaje);
         }
