@@ -18,9 +18,20 @@ public class InterfazUsuario extends JFrame implements ActionListener {
     public InterfazUsuario(UsuarioBiblioteca usuario) {
         this.usuarioActual = usuario;
         // Titulo y tamaño de la ventana
-        setTitle("Usuario - BiblioControl");
+        setTitle("Menú Usuario");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(190, 180);
+        setSize(210, 250);
+
+        // Creación del panel
+        JPanel panel = new JPanel();
+        panel.setBackground(Admin.getInstance().getColorFondo());
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // JLabel de bienvenida
+        JLabel lblBienvenida = new JLabel("Bienvenido, " + usuarioActual.getNombre());
+        lblBienvenida.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblBienvenida.setFont(new Font("Arial", Font.BOLD, 20));
+        panel.add(lblBienvenida);
 
         // Inicialización y configuración de los botones
         btnReservarLibro = new JButton("Reservar Libro");
@@ -29,16 +40,20 @@ public class InterfazUsuario extends JFrame implements ActionListener {
         btnCambiarPassword = new JButton("Cambiar Contraseña");
         btnSalir = new JButton("Salir");
 
+        Dimension buttonSize = new Dimension(70, 50);
+        btnReservarLibro.setPreferredSize(buttonSize);
+        btnSolicitarLibro.setPreferredSize(buttonSize);
+        btnDevolverLibro.setPreferredSize(buttonSize);
+        btnCambiarPassword.setPreferredSize(buttonSize);
+        btnSalir.setPreferredSize(buttonSize);
+
         btnReservarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSolicitarLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnDevolverLibro.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnCambiarPassword.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnSalir.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Creación del panel y añadir los botones a él
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
+        // Añadimos los botones al panel
         panel.add(btnReservarLibro);
         panel.add(btnSolicitarLibro);
         panel.add(btnDevolverLibro);

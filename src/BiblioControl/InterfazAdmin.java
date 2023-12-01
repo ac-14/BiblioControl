@@ -49,6 +49,7 @@ public class InterfazAdmin extends JFrame implements ActionListener {
 
         // Creación del panel y añadir los botones a él
         JPanel panel = new JPanel();
+        panel.setBackground(Admin.getInstance().getColorFondo());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         panel.add(btnAddUsuario);
@@ -84,7 +85,7 @@ public class InterfazAdmin extends JFrame implements ActionListener {
         } else if (e.getSource() == btnGestionarPeticiones) {
             new GestionarPeticionesGUI(Admin.getInstance().getLibros(), Admin.getInstance().getPeticiones()); // Abre la ventana para gestionar peticiones
         } else if (e.getSource() == btnConfiguracion) {
-            new ConfiguracionGUI(); // Abre la ventana para configurar el sistema
+            new ConfiguracionGUI(this); // Abre la ventana para configurar el sistema
         } else if (e.getSource() == btnSalir) {
             dispose(); // Cierra la ventana actual
             new IniciarSesionGUI(); // Abre la interfaz de inicio de sesión

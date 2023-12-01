@@ -18,9 +18,10 @@ public class GestionarSonidoGUI extends JFrame implements ActionListener {
     public GestionarSonidoGUI() {
 
         // Configuración del JFrame
-        setTitle("Gestionar Sonido - BiblioControl");
+        setTitle("Gestionar Sonido");
         setSize(350, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Admin.getInstance().getColorFondo());
 
         setLayout(new FlowLayout());
 

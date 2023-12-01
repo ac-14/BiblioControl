@@ -16,6 +16,7 @@ import javax.sound.sampled.*;
     private ArrayList<Libro> Peticiones, Libros;
     private ArrayList<UsuarioBiblioteca> Usuarios;
     private double umbralSonido = 60.0; // Valor predeterminado del umbral
+    private static Color colorFondo = Color.WHITE; // Color por defecto
 
     /**
      * Constructor
@@ -105,6 +106,21 @@ import javax.sound.sampled.*;
         this.Usuarios = Usuarios;
     }
 
+    /**
+     * Método para establecer el color de fondo
+     * @param nuevoColor el nuevo color de fondo
+     */
+    public void setColorFondo(Color nuevoColor) {
+        colorFondo = nuevoColor;
+    }
+
+    /**
+     * Método para obtener el color de fondo
+     * @return el color de fondo
+     */
+    public Color getColorFondo() {
+        return colorFondo;
+    }
 
     /**
      * Metodo para añadir un libro

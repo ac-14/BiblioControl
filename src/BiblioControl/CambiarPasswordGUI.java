@@ -26,6 +26,7 @@ public class CambiarPasswordGUI extends JFrame implements ActionListener {
 
         // Crear y configurar JPanel con GridLayout
         JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        panel.setBackground(Admin.getInstance().getColorFondo());
 
         // Etiquetas y campos de texto (de tipo JPasswordField para que no se vea la contraseña)
         panel.add(new JLabel("Contraseña actual:"));

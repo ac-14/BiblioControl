@@ -31,6 +31,7 @@ public class ReservarLibroGUI extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
 
         JPanel panelSuperior = new JPanel(new GridLayout(1, 3, 10, 10));
+        panelSuperior.setBackground(Admin.getInstance().getColorFondo());
         panelSuperior.add(new JLabel("Título:"));
         txtTitulo = new JTextField();
         panelSuperior.add(txtTitulo);
@@ -45,6 +46,7 @@ public class ReservarLibroGUI extends JFrame implements ActionListener {
         add(new JScrollPane(listResultados), BorderLayout.CENTER);
 
         JPanel panelBotones = new JPanel();
+        panelBotones.setBackground(Admin.getInstance().getColorFondo());
         btnReservar = new JButton("Reservar");
         btnCancelar = new JButton("Cancelar");
 

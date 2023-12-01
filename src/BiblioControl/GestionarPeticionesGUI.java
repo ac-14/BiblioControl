@@ -22,13 +22,14 @@ public class GestionarPeticionesGUI extends JFrame implements ActionListener {
         this.libros = libros;
         this.peticiones = peticiones;
 
-        setTitle("Gestionar Peticiones - BiblioControl");
+        setTitle("Gestionar Peticiones");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setLayout(new BorderLayout());
 
         listPeticiones = new JList<>();
         JScrollPane scrollPane = new JScrollPane(listPeticiones);
+        scrollPane.setBackground(Admin.getInstance().getColorFondo());
 
         actualizarListaPeticiones();
 
@@ -41,6 +42,7 @@ public class GestionarPeticionesGUI extends JFrame implements ActionListener {
         btnSalir.addActionListener(this);
 
         JPanel panelBotones = new JPanel();
+        panelBotones.setBackground(Admin.getInstance().getColorFondo());
         panelBotones.add(btnAñadir);
         panelBotones.add(btnEliminar);
         panelBotones.add(btnSalir);

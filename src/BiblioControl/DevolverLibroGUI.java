@@ -29,6 +29,7 @@ public class DevolverLibroGUI extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Admin.getInstance().getColorFondo());
 
         // Lista de libros reservados
         listLibrosReservados = new JList<>();

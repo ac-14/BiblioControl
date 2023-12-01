@@ -33,6 +33,7 @@ public class SolicitarLibroGUI extends JFrame implements ActionListener {
 
         // Panel Superior
         JPanel panelSuperior = new JPanel(new GridLayout(1, 2, 10, 10));
+        panelSuperior.setBackground(Admin.getInstance().getColorFondo());
         panelSuperior.add(new JLabel("Título:"));
         txtTitulo = new JTextField();
         panelSuperior.add(txtTitulo);
@@ -47,6 +48,7 @@ public class SolicitarLibroGUI extends JFrame implements ActionListener {
 
         // Panel de Botones
         JPanel panelBotones = new JPanel();
+        panelBotones.setBackground(Admin.getInstance().getColorFondo());
         btnSolicitar = new JButton("Solicitar");
         btnCancelar = new JButton("Cancelar");
         btnSolicitar.addActionListener(this);

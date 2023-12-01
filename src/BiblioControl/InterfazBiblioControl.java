@@ -21,6 +21,7 @@ public class InterfazBiblioControl extends JFrame implements ActionListener {
 
         // Creando y configurando un JPanel con BoxLayout
         JPanel panel = new JPanel();
+        panel.setBackground(Admin.getInstance().getColorFondo());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Cargar y añadir la imagen
@@ -30,7 +31,7 @@ public class InterfazBiblioControl extends JFrame implements ActionListener {
         panel.add(imageLabel);
 
         // Creando botones y configurando su alineación
-        Dimension buttonSize = new Dimension(50, 70); // Ancho de 200 y alto de 50
+        Dimension buttonSize = new Dimension(50, 70);
         btnIniciarSesion = new JButton("Iniciar Sesión");
         btnCrearUsuario = new JButton("Crear Usuario");
         btnCerrar = new JButton("Cerrar");

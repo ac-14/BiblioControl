@@ -22,10 +22,11 @@ public class AddLibroGUI extends JFrame implements ActionListener {
         this.biblioteca = biblioteca;
 
         // Configuración del JFrame
-        setTitle("Búsqueda de Libros para Añadir");
+        setTitle("Añadir Libro");
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        getContentPane().setBackground(Admin.getInstance().getColorFondo());
 
         // Crear y configurar JPanel superior con GridLayout
         JPanel panelSuperior = new JPanel();
