@@ -8,7 +8,7 @@ import java.awt.event.*;
  * Clase que representa la interfaz gráfica para cambiar la contraseña
  */
 public class CambiarPasswordGUI extends JFrame implements ActionListener {
-    private JPasswordField txtPasswordActual, txtPasswordNueva;
+    private JPasswordField txtPasswordActual, txtPasswordNueva, txtPistaNueva;
     private JButton btnCambiar, btnCancelar;
     private UsuarioBiblioteca usuarioActual;
 
@@ -25,7 +25,7 @@ public class CambiarPasswordGUI extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Crear y configurar JPanel con GridLayout
-        JPanel panel = new JPanel(new GridLayout(3, 2, 10, 10));
+        JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
         panel.setBackground(Admin.getInstance().getColorFondo());
 
         // Etiquetas y campos de texto (de tipo JPasswordField para que no se vea la contraseña)
@@ -36,6 +36,10 @@ public class CambiarPasswordGUI extends JFrame implements ActionListener {
         panel.add(new JLabel("Nueva contraseña:"));
         txtPasswordNueva = new JPasswordField();
         panel.add(txtPasswordNueva);
+
+        panel.add(new JLabel("Nueva pista:"));
+        txtPistaNueva = new JPasswordField();
+        panel.add(txtPistaNueva);
 
         // Añadir botones
         btnCambiar = new JButton("Cambiar");
@@ -62,8 +66,10 @@ public class CambiarPasswordGUI extends JFrame implements ActionListener {
                 // Guardamos la contraseña actual y la nueva en variables de tipo String
                 String passwordActual = new String(txtPasswordActual.getPassword());
                 String passwordNueva = new String(txtPasswordNueva.getPassword());
+                String pistaNueva = new String(txtPistaNueva.getPassword());
                 // Utilizamos el método cambiarPassword de la clase UsuarioBiblioteca y mostramos un mensaje de éxito
                 usuarioActual.cambiarPassword(passwordActual, passwordNueva);
+                usuarioActual.setPistaPassword(pistaNueva);
                 JOptionPane.showMessageDialog(this, "Contraseña cambiada correctamente");
             } catch (UsuarioBiblioteca.PasswordIncorrectaException ex) {
                 JOptionPane.showMessageDialog(this, ex.getMessage());

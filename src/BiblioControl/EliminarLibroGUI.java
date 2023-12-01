@@ -22,7 +22,7 @@ public class EliminarLibroGUI extends JFrame implements ActionListener {
 
         // Configuración del JFrame
         setTitle("Eliminar Libro");
-        setSize(350, 300);
+        setSize(450, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         listLibros = new JList<>();

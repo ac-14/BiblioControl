@@ -71,14 +71,6 @@ public abstract class Usuario {
         return password;
     }
 
-    /**
-     * Metodo setPassword
-     * @param Password Contraseña del usuario
-     */
-    public void setPassword(int Password) {
-        this.password = password;
-    }
-
 
     /**
      * Metodo getPistaPassword
@@ -86,6 +78,14 @@ public abstract class Usuario {
      */
     public String getPistaPassword() {
         return pistaPassword;
+    }
+
+    /**
+     * Metodo setPistaPassword
+     * @param pistaPassword Pista de la contraseña del usuario
+     */
+    public void setPistaPassword(String pistaPassword) {
+        this.pistaPassword = pistaPassword;
     }
 
     /**
