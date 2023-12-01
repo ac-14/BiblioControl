@@ -15,14 +15,28 @@ public class InterfazBiblioControl extends JFrame implements ActionListener {
      */
     public InterfazBiblioControl() {
         // Configuración del JFrame
-        setTitle("BiblioControl - Menú Principal");
+        setTitle("Menú Principal");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(180, 120);
+        setSize(250, 200);
+
+        // Creando y configurando un JPanel con BoxLayout
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Cargar y añadir la imagen
+        ImageIcon imageIcon = new ImageIcon("BiblioControl_logo.png");
+        JLabel imageLabel = new JLabel(imageIcon);
+        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(imageLabel);
 
         // Creando botones y configurando su alineación
+        Dimension buttonSize = new Dimension(50, 70); // Ancho de 200 y alto de 50
         btnIniciarSesion = new JButton("Iniciar Sesión");
         btnCrearUsuario = new JButton("Crear Usuario");
         btnCerrar = new JButton("Cerrar");
+        btnIniciarSesion.setPreferredSize(buttonSize);
+        btnCrearUsuario.setPreferredSize(buttonSize);
+        btnCerrar.setPreferredSize(buttonSize);
         btnIniciarSesion.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnCrearUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
         btnCerrar.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -30,10 +44,6 @@ public class InterfazBiblioControl extends JFrame implements ActionListener {
         btnIniciarSesion.addActionListener(this);
         btnCrearUsuario.addActionListener(this);
         btnCerrar.addActionListener(this);
-
-        // Creando y configurando un JPanel con BoxLayout
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Añadiendo botones al panel
         panel.add(btnIniciarSesion);

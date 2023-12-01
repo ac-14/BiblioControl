@@ -17,7 +17,7 @@ public class IniciarSesionGUI extends JFrame implements ActionListener {
      */
     public IniciarSesionGUI() {
         // Configuración del JFrame
-        setTitle("BiblioControl - Iniciar Sesión");
+        setTitle("Iniciar Sesión");
         setSize(320, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
