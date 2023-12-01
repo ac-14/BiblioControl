@@ -20,8 +20,8 @@ public class InterfazBiblioControl extends JFrame implements ActionListener {
         setSize(250, 200);
 
         // Creando y configurando un JPanel con BoxLayout
+        // En esta interfaz gráfica no cambiamos el color para poder ver bien el logo
         JPanel panel = new JPanel();
-        panel.setBackground(Admin.getInstance().getColorFondo());
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Cargar y añadir la imagen
