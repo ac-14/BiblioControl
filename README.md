@@ -130,3 +130,14 @@ Mostramos un ejemplo del funcionamiento:
 <p align="center">
 <img width="499" alt="Captura de pantalla 2023-11-29 a las 19 54 59" src="https://github.com/ac-14/TrabajoJava/assets/119895282/15f0e12c-31c9-42fa-b736-2ed31b4a506d">
 </p>
+
+Además, hemos agregado una Interfaz Gráfica de Configuración para que el administrador pueda modificar algunos parámetros:
+<p align="center">
+<img width="432" alt="Captura de pantalla 2023-12-01 a las 10 26 15" src="https://github.com/ac-14/TrabajoJava/assets/119895282/fa878e60-4448-45d4-afe2-d2217f2c3b57">
+</p>
+
+También se ha mejorado el aspecto del menú inicial: 
+<p align="center">
+<img width="362" alt="Captura de pantalla 2023-12-01 a las 10 27 25" src="https://github.com/ac-14/TrabajoJava/assets/119895282/25ef5100-cd4a-421c-be23-8206a10c45fc">
+</p>
+
