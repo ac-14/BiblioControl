@@ -25,7 +25,6 @@ public class AddUsuarioGUI extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(350, 280);
 
-
         // Crear y configurar JPanel con GridLayout
         JPanel panel = new JPanel(new GridLayout(5, 2, 10, 10));
         panel.setBackground(Admin.getInstance().getColorFondo());

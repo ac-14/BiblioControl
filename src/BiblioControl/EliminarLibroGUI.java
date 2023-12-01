@@ -29,6 +29,7 @@ public class EliminarLibroGUI extends JFrame implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(listLibros);
         scrollPane.setBackground(Admin.getInstance().getColorFondo());
 
+        // Mostramos los datos de los libros en la JList
         actualizarListaLibros();
         btnEliminar = new JButton("Eliminar");
         btnCancelar = new JButton("Cancelar");
@@ -36,11 +37,13 @@ public class EliminarLibroGUI extends JFrame implements ActionListener {
         btnEliminar.addActionListener(this);
         btnCancelar.addActionListener(this);
 
+        // Creamos un panel para los botones de abajo
         JPanel panelBotones = new JPanel();
         panelBotones.setBackground(Admin.getInstance().getColorFondo());
         panelBotones.add(btnEliminar);
         panelBotones.add(btnCancelar);
 
+        // Añadimos los dos paneles al JFrame
         add(scrollPane, BorderLayout.CENTER);
         add(panelBotones, BorderLayout.SOUTH);
 
