@@ -62,7 +62,7 @@ public class EliminarUsuarioGUI extends JFrame implements ActionListener {
             String DNI = txtDNI.getText();
             String password = txtPasswordAdmin.getText();
             // Eliminamos el usuario y guardamos los cambios en el archivo de texto
-            String resultado = Admin.getInstance().delUsuario(Usuarios, DNI, password);
+            String resultado = Admin.getInstance().eliminarUsuario(Usuarios, DNI, password);
             GestorDeArchivos.guardarUsuarios(Usuarios);
             JOptionPane.showMessageDialog(null, resultado);
         } else if (e.getSource() == btnCancelar) {

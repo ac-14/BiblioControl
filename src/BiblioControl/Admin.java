@@ -198,7 +198,7 @@ import javax.sound.sampled.*;
      * @param password Contraseña del administrador.
      * @return Mensaje indicando el resultado de la operación.
      */
-    public String delUsuario(ArrayList<UsuarioBiblioteca> Usuarios, String DNI, String password) {
+    public String eliminarUsuario(ArrayList<UsuarioBiblioteca> Usuarios, String DNI, String password) {
         // Si la contraseña es correcta pasamos a buscar el usuario
         if (this.ComprobarPassword(password)) {
             boolean usuarioEncontrado = false;
